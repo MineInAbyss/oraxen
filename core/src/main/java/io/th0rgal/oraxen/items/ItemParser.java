@@ -8,6 +8,7 @@ import io.th0rgal.oraxen.config.Settings;
 import io.th0rgal.oraxen.mechanics.Mechanic;
 import io.th0rgal.oraxen.mechanics.MechanicFactory;
 import io.th0rgal.oraxen.mechanics.MechanicsManager;
+import io.th0rgal.oraxen.nms.NMSHandlers;
 import io.th0rgal.oraxen.utils.*;
 import io.th0rgal.oraxen.utils.logs.Logs;
 import net.Indyuce.mmoitems.MMOItems;
@@ -153,10 +154,8 @@ public class ItemParser {
         if (components.contains("fire_resistant")) item.setFireResistant(components.getBoolean("fire_resistant"));
         if (components.contains("hide_tooltip")) item.setHideToolTip(components.getBoolean("hide_tooltip"));
 
-        ConfigurationSection foodSection = components.getConfigurationSection("food");
-        if (foodSection != null) parseFoodComponent(item, foodSection);
-        ConfigurationSection toolSection = components.getConfigurationSection("tool");
-        if (toolSection != null) parseToolComponent(item, toolSection);
+        Optional.ofNullable(components.getConfigurationSection("food")).ifPresent(food ->NMSHandlers.getHandler().foodComponent(item, food));
+        Optional.ofNullable(components.getConfigurationSection("tool")).ifPresent(toolSection -> parseToolComponent(item, toolSection));
 
         if (!VersionUtil.atOrAbove("1.21")) return;
 
@@ -196,6 +195,8 @@ public class ItemParser {
 
         if (components.contains("enchantable")) item.setEnchantable(components.getInt("enchantable"));
         if (components.contains("glider")) item.setGlider(components.getBoolean("glider"));
+
+        Optional.ofNullable(components.getConfigurationSection("consumable")).ifPresent(consumableSection -> NMSHandlers.getHandler().consumableComponent(item, consumableSection));
 
     }
 
@@ -287,39 +288,6 @@ public class ItemParser {
         }
 
         item.setToolComponent(toolComponent);
-    }
-
-    @SuppressWarnings("UnstableApiUsage")
-    private void parseFoodComponent(ItemBuilder item, @NotNull ConfigurationSection foodSection) {
-        FoodComponent foodComponent = new ItemStack(type).getItemMeta().getFood();
-        foodComponent.setNutrition(foodSection.getInt("nutrition"));
-        foodComponent.setSaturation((float) foodSection.getDouble("saturation", 0.0));
-        foodComponent.setCanAlwaysEat(foodSection.getBoolean("can_always_eat"));
-
-        if (!VersionUtil.atOrAbove("1.21.2")) {
-            /*foodComponent.setEatSeconds((float) foodSection.getDouble("eat_seconds", 1.6));
-
-            ConfigurationSection effectsSection = foodSection.getConfigurationSection("effects");
-            if (effectsSection != null) for (String effect : effectsSection.getKeys(false)) {
-                ConfigurationSection effectSection = effectsSection.getConfigurationSection(effect);
-                PotionEffectType effectType = PotionUtils.getEffectType(effect);
-                if (effectSection == null || effectType == null)
-                    Logs.logError("Invalid potion effect: " + effect + ", in " + StringUtils.substringBefore(effectsSection.getCurrentPath(), ".") + " food-property!");
-                else {
-                    foodComponent.addEffect(
-                            new PotionEffect(effectType,
-                                    effectSection.getInt("duration", 1) * 20,
-                                    effectSection.getInt("amplifier", 0),
-                                    effectSection.getBoolean("ambient", true),
-                                    effectSection.getBoolean("show_particles", true),
-                                    effectSection.getBoolean("show_icon", true)),
-                            (float) effectSection.getDouble("probability", 1.0)
-                    );
-                }
-            }*/
-        }
-
-        item.setFoodComponent(foodComponent);
     }
 
     private void parseConsumableComponent(ItemBuilder item, @NotNull ConfigurationSection consumableSection) {
