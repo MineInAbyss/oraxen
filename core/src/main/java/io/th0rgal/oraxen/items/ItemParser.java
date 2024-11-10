@@ -11,6 +11,7 @@ import io.th0rgal.oraxen.mechanics.MechanicsManager;
 import io.th0rgal.oraxen.nms.NMSHandlers;
 import io.th0rgal.oraxen.utils.*;
 import io.th0rgal.oraxen.utils.logs.Logs;
+import io.th0rgal.oraxen.utils.wrappers.AttributeWrapper;
 import net.Indyuce.mmoitems.MMOItems;
 import net.kyori.adventure.key.Key;
 import org.apache.commons.lang3.EnumUtils;
@@ -28,7 +29,10 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemRarity;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.components.*;
+import org.bukkit.inventory.meta.components.EquippableComponent;
+import org.bukkit.inventory.meta.components.JukeboxPlayableComponent;
+import org.bukkit.inventory.meta.components.ToolComponent;
+import org.bukkit.inventory.meta.components.UseCooldownComponent;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -381,7 +385,7 @@ public class ItemParser {
                 attributeJson.putIfAbsent("name", "oraxen:modifier");
                 attributeJson.putIfAbsent("key", "oraxen:modifier");
                 AttributeModifier attributeModifier = AttributeModifier.deserialize(attributeJson);
-                Attribute attribute = Attribute.valueOf((String) attributeJson.get("attribute"));
+                Attribute attribute = AttributeWrapper.fromString((String) attributeJson.get("attribute"));
                 item.addAttributeModifiers(attribute, attributeModifier);
             }
         }
