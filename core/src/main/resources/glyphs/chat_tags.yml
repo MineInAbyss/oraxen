@@ -2,78 +2,78 @@ farmer_tag:
   texture: default/chat/farmer_tag
   ascent: 9
   height: 10
-  font: oraxen:chat_tags
+  font: nexo:chat_tags
   chat:
     placeholders:
       - ":farmer:"
-    permission: "oraxen.emoji.farmer"
+    permission: "nexo.emoji.farmer"
 
 explorer_tag:
   texture: default/chat/explorer_tag
   ascent: 9
   height: 10
-  font: oraxen:chat_tags
+  font: nexo:chat_tags
   chat:
     placeholders:
       - ":explorer:"
-    permission: "oraxen.emoji.explorer"
+    permission: "nexo.emoji.explorer"
 
 knight_tag:
   texture: default/chat/knight_tag
   ascent: 9
   height: 10
-  font: oraxen:chat_tags
+  font: nexo:chat_tags
   chat:
     placeholders:
       - ":knight:"
-    permission: "oraxen.emoji.knight"
+    permission: "nexo.emoji.knight"
 
 lord_tag:
   texture: default/chat/lord_tag
   ascent: 9
   height: 10
-  font: oraxen:chat_tags
+  font: nexo:chat_tags
   chat:
     placeholders:
       - ":lord:"
-    permission: "oraxen.emoji.lord"
+    permission: "nexo.emoji.lord"
 
 prince_tag:
   texture: default/chat/prince_tag
   ascent: 9
   height: 10
-  font: oraxen:chat_tags
+  font: nexo:chat_tags
   chat:
     placeholders:
       - ":prince:"
-    permission: "oraxen.emoji.prince"
+    permission: "nexo.emoji.prince"
 
 king_tag:
   texture: default/chat/king_tag
   ascent: 9
   height: 10
-  font: oraxen:chat_tags
+  font: nexo:chat_tags
   chat:
     placeholders:
       - ":king:"
-    permission: "oraxen.emoji.king"
+    permission: "nexo.emoji.king"
 
 hero_tag:
   texture: default/chat/hero_tag
   ascent: 9
   height: 10
-  font: oraxen:chat_tags
+  font: nexo:chat_tags
   chat:
     placeholders:
       - ":hero:"
-    permission: "oraxen.emoji.hero"
+    permission: "nexo.emoji.hero"
 
 god_tag:
   texture: default/chat/god_tag
   ascent: 9
   height: 10
-  font: oraxen:chat_tags
+  font: nexo:chat_tags
   chat:
     placeholders:
       - ":god:"
-    permission: "oraxen.emoji.god"
+    permission: "nexo.emoji.god"

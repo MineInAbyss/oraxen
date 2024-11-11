@@ -34,27 +34,27 @@ logs:
 
 command:
   help: "<prefix><#b8bbc2>Available commands
-        \n<hover:show_text:\"<gray>fill reload command\"><click:SUGGEST_COMMAND:/oraxen reload ><#6f737d>/o
+        \n<hover:show_text:\"<gray>fill reload command\"><click:SUGGEST_COMMAND:/nexo reload ><#6f737d>/o
           <#b8bbc2>reload <#fa8943>type</click></hover>  <#6f737d>»<#b8bbc2> reload the plugin
-        \n<hover:show_text:\"<gray>fill inv command\"><click:SUGGEST_COMMAND:/oraxen inv><#6f737d>/o
-          <#b8bbc2>inventory</click></hover>  <#6f737d>»<#b8bbc2> show oraxen items in inventory
-        \n<hover:show_text:\"<gray>fill pack command\"><click:SUGGEST_COMMAND:/oraxen pack ><#6f737d>/o
-          <#b8bbc2>pack <#fa8943>type <#43c9fa>target</click></hover>  <#6f737d>»<#b8bbc2> send oraxen pack
-        \n<hover:show_text:\"<gray>fill repair command\"><click:SUGGEST_COMMAND:/oraxen repair ><#6f737d>/o
+        \n<hover:show_text:\"<gray>fill inv command\"><click:SUGGEST_COMMAND:/nexo inv><#6f737d>/o
+          <#b8bbc2>inventory</click></hover>  <#6f737d>»<#b8bbc2> show nexo items in inventory
+        \n<hover:show_text:\"<gray>fill pack command\"><click:SUGGEST_COMMAND:/nexo pack ><#6f737d>/o
+          <#b8bbc2>pack <#fa8943>type <#43c9fa>target</click></hover>  <#6f737d>»<#b8bbc2> send nexo pack
+        \n<hover:show_text:\"<gray>fill repair command\"><click:SUGGEST_COMMAND:/nexo repair ><#6f737d>/o
           <#b8bbc2>repair <#fa8943>type</click></hover>  <#6f737d>»<#b8bbc2> repair one or all your items
-        \n<hover:show_text:\"<gray>fill give command\"><click:SUGGEST_COMMAND:/oraxen give ><#6f737d>/o
-          <#b8bbc2>give <#43c9fa>target <#fa4362>item <#43fa8c>amount</click></hover>  <#6f737d>»<#b8bbc2> give an oraxen item
-        \n<hover:show_text:\"<gray>fill recipes show command\"><click:SUGGEST_COMMAND:/oraxen recipes show ><#6f737d>/o
+        \n<hover:show_text:\"<gray>fill give command\"><click:SUGGEST_COMMAND:/nexo give ><#6f737d>/o
+          <#b8bbc2>give <#43c9fa>target <#fa4362>item <#43fa8c>amount</click></hover>  <#6f737d>»<#b8bbc2> give an nexo item
+        \n<hover:show_text:\"<gray>fill recipes show command\"><click:SUGGEST_COMMAND:/nexo recipes show ><#6f737d>/o
           <#b8bbc2>recipes show <#fa8943>type</click></hover>  <#6f737d>»<#b8bbc2> show recipes
-        \n<hover:show_text:\"<gray>fill recipes builder command\"><click:SUGGEST_COMMAND:/oraxen recipes builder ><#6f737d>/o
+        \n<hover:show_text:\"<gray>fill recipes builder command\"><click:SUGGEST_COMMAND:/nexo recipes builder ><#6f737d>/o
           <#b8bbc2>recipes builder <#fa8943>type</click></hover>  <#6f737d>»<#b8bbc2> open recipes builder
-        \n<hover:show_text:\"<gray>fill recipes save command\"><click:SUGGEST_COMMAND:/oraxen recipes save ><#6f737d>/o
+        \n<hover:show_text:\"<gray>fill recipes save command\"><click:SUGGEST_COMMAND:/nexo recipes save ><#6f737d>/o
           <#b8bbc2>recipes save <#faf443>name</click></hover>  <#6f737d>»<#b8bbc2> save recipe"
 
   join: |-
     <dark_gray><st>                           </st><dark_gray>{<aqua><bold>Resource Pack</bold><dark_gray>}<dark_gray><st>                        </st>
     <gray><bold>To see the new items you need to use a special resourcepack (but don't worry, this doesn't prevent you from using yours at the same time).</bold>
-    <dark_gray>»<gray> To try to load it directly from the game, <click:run_command:"oraxen pack send @p"><hover:show_text:"<red>! loading the resourcepack from the game can cause lags"><red><bold>CLICK HERE</bold></hover></click>
+    <dark_gray>»<gray> To try to load it directly from the game, <click:run_command:"nexo pack send @p"><hover:show_text:"<red>! loading the resourcepack from the game can cause lags"><red><bold>CLICK HERE</bold></hover></click>
     <dark_gray>»<gray> To download it from the internet, <hover:show_text:"<pack_url> <green>! install it from Options/ResourcePacks in your game"><green><bold><click:OPEN_URL:"<pack_url>">CLICK HERE</click></bold></hover>
 
   recipe:

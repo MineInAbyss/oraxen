@@ -4,7 +4,7 @@ bedrock_pickaxe:
     - BCB
     - _D_
   result:
-    oraxen_item: bedrock_pickaxe
+    nexo_item: bedrock_pickaxe
   ingredients:
     D:
       minecraft_type: STICK
@@ -17,7 +17,7 @@ bedrock_pickaxe:
 
 obsidian_sword:
   result:
-    oraxen_item: obsidian_sword
+    nexo_item: obsidian_sword
   ingredients:
     A:
       minecraft_type: OBSIDIAN
@@ -30,7 +30,7 @@ obsidian_sword:
 
 obsidian_helmet:
   result:
-    oraxen_item: obsidian_helmet
+    nexo_item: obsidian_helmet
   ingredients:
     A:
       minecraft_type: OBSIDIAN
@@ -40,7 +40,7 @@ obsidian_helmet:
 
 obsidian_chestplate:
   result:
-    oraxen_item: obsidian_chestplate
+    nexo_item: obsidian_chestplate
   ingredients:
     A:
       minecraft_type: OBSIDIAN
@@ -51,7 +51,7 @@ obsidian_chestplate:
 
 obsidian_leggings:
   result:
-    oraxen_item: obsidian_leggings
+    nexo_item: obsidian_leggings
   ingredients:
     A:
       minecraft_type: OBSIDIAN
@@ -62,7 +62,7 @@ obsidian_leggings:
 
 obsidian_boots:
   result:
-    oraxen_item: obsidian_boots
+    nexo_item: obsidian_boots
   ingredients:
     A:
       minecraft_type: OBSIDIAN
@@ -72,7 +72,7 @@ obsidian_boots:
 
 glass_sword:
   result:
-    oraxen_item: glass_sword
+    nexo_item: glass_sword
   ingredients:
     A:
       minecraft_type: GLASS

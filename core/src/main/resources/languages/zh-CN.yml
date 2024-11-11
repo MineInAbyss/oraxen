@@ -34,28 +34,28 @@ logs:
 
 command:
   help: "<prefix><#b8bbc2>可用指令
-        \n<hover:show_text:\"<gray>fill reload command\"><click:SUGGEST_COMMAND:/oraxen reload ><#6f737d>/o
+        \n<hover:show_text:\"<gray>fill reload command\"><click:SUGGEST_COMMAND:/nexo reload ><#6f737d>/o
           <#b8bbc2>reload <#fa8943>type</click></hover>  <#6f737d>»<#b8bbc2> 重载此插件
-        \n<hover:show_text:\"<gray>fill inv command\"><click:SUGGEST_COMMAND:/oraxen inv><#6f737d>/o
-          <#b8bbc2>inventory</click></hover>  <#6f737d>»<#b8bbc2> 在背包中显示 oraxen 物品
-        \n<hover:show_text:\"<gray>fill pack command\"><click:SUGGEST_COMMAND:/oraxen pack ><#6f737d>/o
+        \n<hover:show_text:\"<gray>fill inv command\"><click:SUGGEST_COMMAND:/nexo inv><#6f737d>/o
+          <#b8bbc2>inventory</click></hover>  <#6f737d>»<#b8bbc2> 在背包中显示 nexo 物品
+        \n<hover:show_text:\"<gray>fill pack command\"><click:SUGGEST_COMMAND:/nexo pack ><#6f737d>/o
           <#b8bbc2>pack <#fa8943>type <#43c9fa>target</click></hover>  <#6f737d>»<#b8bbc2> 发送材质包
-        \n<hover:show_text:\"<gray>fill repair command\"><click:SUGGEST_COMMAND:/oraxen repair ><#6f737d>/o
+        \n<hover:show_text:\"<gray>fill repair command\"><click:SUGGEST_COMMAND:/nexo repair ><#6f737d>/o
           <#b8bbc2>repair <#fa8943>type</click></hover>  <#6f737d>»<#b8bbc2> 修复一个或所有你的物品
-        \n<hover:show_text:\"<gray>fill give command\"><click:SUGGEST_COMMAND:/oraxen give ><#6f737d>/o
-          <#b8bbc2>give <#43c9fa>target <#fa4362>item <#43fa8c>amount</click></hover>  <#6f737d>»<#b8bbc2> 给一个 oraxen 物品
-        \n<hover:show_text:\"<gray>fill recipes show command\"><click:SUGGEST_COMMAND:/oraxen recipes show ><#6f737d>/o
+        \n<hover:show_text:\"<gray>fill give command\"><click:SUGGEST_COMMAND:/nexo give ><#6f737d>/o
+          <#b8bbc2>give <#43c9fa>target <#fa4362>item <#43fa8c>amount</click></hover>  <#6f737d>»<#b8bbc2> 给一个 nexo 物品
+        \n<hover:show_text:\"<gray>fill recipes show command\"><click:SUGGEST_COMMAND:/nexo recipes show ><#6f737d>/o
           <#b8bbc2>recipes show <#fa8943>type</click></hover>  <#6f737d>»<#b8bbc2> 显示配方
-        \n<hover:show_text:\"<gray>fill recipes builder command\"><click:SUGGEST_COMMAND:/oraxen recipes builder ><#6f737d>/o
+        \n<hover:show_text:\"<gray>fill recipes builder command\"><click:SUGGEST_COMMAND:/nexo recipes builder ><#6f737d>/o
           <#b8bbc2>recipes builder <#fa8943>type</click></hover>  <#6f737d>»<#b8bbc2> 打开配方生成器
-        \n<hover:show_text:\"<gray>fill recipes save command\"><click:SUGGEST_COMMAND:/oraxen recipes save ><#6f737d>/o
+        \n<hover:show_text:\"<gray>fill recipes save command\"><click:SUGGEST_COMMAND:/nexo recipes save ><#6f737d>/o
           <#b8bbc2>recipes save <#faf443>name</click></hover>  <#6f737d>»<#b8bbc2> 保存配方"
   join: "
         <dark_gray><strikethrough>                           </strikethrough><dark_gray>{<aqua><bold> 材质包 </bold><dark_gray>}<dark_gray><strikethrough>                        </strikethrough>
 
         <gray><bold>要看到新的物品，你需要使用一个特殊的材质包包 (不用担心，你依然可以使用自己的材质包)。</bold>
 
-        <dark_gray>»<gray> 如果你想直接在游戏内载入它， <click:run_command:/oraxen pack send @p><hover:show_text:\"<red>/!\\ 加载材质包可能会造成卡顿\"><red><bold>点击这里</bold></hover></click>
+        <dark_gray>»<gray> 如果你想直接在游戏内载入它， <click:run_command:/nexo pack send @p><hover:show_text:\"<red>/!\\ 加载材质包可能会造成卡顿\"><red><bold>点击这里</bold></hover></click>
 
         <dark_gray>»<gray> 如果想从网上下载， <click:open_url:<pack_url>><hover:show_text:\"<green>/!\\ 自行从游戏载入此材质包\"><green><bold>点击这里</bold></hover></click>
         "

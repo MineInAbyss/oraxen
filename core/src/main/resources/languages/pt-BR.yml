@@ -34,27 +34,27 @@ logs:
 
 command:
   help: "<prefix><#b8bbc2>Comandos disponíveis:
-        \n<hover:show_text:\"<gray>fill reload command\"><click:SUGGEST_COMMAND:/oraxen reload ><#6f737d>/o
+        \n<hover:show_text:\"<gray>fill reload command\"><click:SUGGEST_COMMAND:/nexo reload ><#6f737d>/o
           <#b8bbc2>reload <#fa8943>type</click></hover>  <#6f737d>»<#b8bbc2> Recarrega o plugin
-        \n<hover:show_text:\"<gray>fill inv command\"><click:SUGGEST_COMMAND:/oraxen inv><#6f737d>/o
+        \n<hover:show_text:\"<gray>fill inv command\"><click:SUGGEST_COMMAND:/nexo inv><#6f737d>/o
           <#b8bbc2>inventory</click></hover>  <#6f737d>»<#b8bbc2> Mostra os itens do Oraxen no inventário
-        \n<hover:show_text:\"<gray>fill pack command\"><click:SUGGEST_COMMAND:/oraxen pack ><#6f737d>/o
+        \n<hover:show_text:\"<gray>fill pack command\"><click:SUGGEST_COMMAND:/nexo pack ><#6f737d>/o
           <#b8bbc2>pack <#fa8943>type <#43c9fa>target</click></hover>  <#6f737d>»<#b8bbc2> Envia a textura para um jogador
-        \n<hover:show_text:\"<gray>fill repair command\"><click:SUGGEST_COMMAND:/oraxen repair ><#6f737d>/o
+        \n<hover:show_text:\"<gray>fill repair command\"><click:SUGGEST_COMMAND:/nexo repair ><#6f737d>/o
           <#b8bbc2>repair <#fa8943>type</click></hover>  <#6f737d>»<#b8bbc2> Repara um ou todos os seus itens
-        \n<hover:show_text:\"<gray>fill give command\"><click:SUGGEST_COMMAND:/oraxen give ><#6f737d>/o
+        \n<hover:show_text:\"<gray>fill give command\"><click:SUGGEST_COMMAND:/nexo give ><#6f737d>/o
           <#b8bbc2>give <#43c9fa>target <#fa4362>item <#43fa8c>amount</click></hover>  <#6f737d>»<#b8bbc2> Dá um item do Oraxen
-        \n<hover:show_text:\"<gray>fill recipes show command\"><click:SUGGEST_COMMAND:/oraxen recipes show ><#6f737d>/o
+        \n<hover:show_text:\"<gray>fill recipes show command\"><click:SUGGEST_COMMAND:/nexo recipes show ><#6f737d>/o
           <#b8bbc2>recipes show <#fa8943>type</click></hover>  <#6f737d>»<#b8bbc2> Mostra as receitas
-        \n<hover:show_text:\"<gray>fill recipes builder command\"><click:SUGGEST_COMMAND:/oraxen recipes builder ><#6f737d>/o
+        \n<hover:show_text:\"<gray>fill recipes builder command\"><click:SUGGEST_COMMAND:/nexo recipes builder ><#6f737d>/o
           <#b8bbc2>recipes builder <#fa8943>type</click></hover>  <#6f737d>»<#b8bbc2> Abre o construtor de receitas
-        \n<hover:show_text:\"<gray>fill recipes save command\"><click:SUGGEST_COMMAND:/oraxen recipes save ><#6f737d>/o
+        \n<hover:show_text:\"<gray>fill recipes save command\"><click:SUGGEST_COMMAND:/nexo recipes save ><#6f737d>/o
           <#b8bbc2>recipes save <#faf443>name</click></hover>  <#6f737d>»<#b8bbc2> Salva a receita criada."
 
   join: |-
     <dark_gray><st>                           </st><dark_gray>{<aqua><bold>Pacote de Recursos</bold><dark_gray>}<dark_gray><st>                        </st>
     <gray><bold>Para ver os novos itens, você precisa usar um pacote de recursos especial (mas não se preocupe, isso não impede que você use o seu ao mesmo tempo).</bold>
-    <dark_gray>»<gray> Para tentar carregá-lo diretamente do jogo, <click:run_command:oraxen pack send @p><hover:show_text:"<red>! carregar o pacote de recursos do jogo pode causar lag"><red><bold>CLIQUE AQUI</bold></hover></click>
+    <dark_gray>»<gray> Para tentar carregá-lo diretamente do jogo, <click:run_command:nexo pack send @p><hover:show_text:"<red>! carregar o pacote de recursos do jogo pode causar lag"><red><bold>CLIQUE AQUI</bold></hover></click>
     <dark_gray>»<gray> Para baixá-lo da internet, <hover:show_text:'<pack_url>' <green>! instale-o em Opções/Pacote de Recursos em seu jogo"><green><bold><click:OPEN_URL:'<pack_url>'>CLIQUE AQUI</click></bold></hover>."
 
   recipe:

@@ -2,8 +2,8 @@ heart:
   texture: default/chat/heart
   ascent: 8
   height: 8
-  font: oraxen:emojis
+  font: nexo:emojis
   chat:
     placeholders:
       - "<3"
-    permission: "oraxen.emoji.heart"
+    permission: "nexo.emoji.heart"

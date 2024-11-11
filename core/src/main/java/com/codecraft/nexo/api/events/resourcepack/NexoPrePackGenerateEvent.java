@@ -1,0 +1,50 @@
+package com.codecraft.nexo.api.events.resourcepack;
+
+import com.codecraft.nexo.api.events.NexoPack;
+import com.codecraft.nexo.pack.creative.NexoPackReader;
+import org.bukkit.event.Event;
+import org.bukkit.event.HandlerList;
+import org.jetbrains.annotations.NotNull;
+import team.unnamed.creative.ResourcePack;
+
+import java.io.File;
+
+public class NexoPrePackGenerateEvent extends Event {
+    private final ResourcePack resourcePack;
+    private static final HandlerList HANDLERS = new HandlerList();
+
+    public NexoPrePackGenerateEvent(ResourcePack resourcePack) {
+        this.resourcePack = resourcePack;
+    }
+
+    public ResourcePack resourcePack() {
+        return this.resourcePack;
+    }
+
+    public boolean addResourcePack(ResourcePack resourcePack) {
+        try {
+            NexoPack.mergePack(this.resourcePack, resourcePack);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean addResourcePack(File resourcePack) {
+        try {
+            NexoPack.mergePack(this.resourcePack, new NexoPackReader().readFile(resourcePack));
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @NotNull
+    @Override
+    public HandlerList getHandlers() { return getHandlerList(); }
+    public static HandlerList getHandlerList() {
+        return HANDLERS;
+    }
+}

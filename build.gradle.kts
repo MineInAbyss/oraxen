@@ -8,7 +8,6 @@ import kotlin.io.path.listDirectoryEntries
 
 plugins {
     id("java")
-    //id("com.github.johnrengelman.shadow") version "8.1.1"
     id("xyz.jpenilla.run-paper") version "2.3.1"
     id("xyz.jpenilla.resource-factory-bukkit-convention") version "1.2.0" // Generates plugin.yml based on the Gradle config
     id("io.papermc.paperweight.userdev") version "1.7.4" apply false
@@ -24,11 +23,11 @@ val SUPPORTED_VERSIONS: List<NMSVersion> = listOf(
     "v1_21_R1" toNms "1.21-R0.1-SNAPSHOT"
 )
 
-val compiled = (project.findProperty("oraxen_compiled")?.toString() ?: "true").toBoolean()
-val pluginPath = project.findProperty("oraxen2_plugin_path")?.toString()
-val devPluginPath = project.findProperty("oraxen_dev_plugin_path")?.toString()
-val foliaPluginPath = project.findProperty("oraxen_folia_plugin_path")?.toString()
-val spigotPluginPath = project.findProperty("oraxen_spigot_plugin_path")?.toString()
+val compiled = (project.findProperty("nexo_compiled")?.toString() ?: "true").toBoolean()
+val pluginPath = project.findProperty("nexo2_plugin_path")?.toString()
+val devPluginPath = project.findProperty("nexo_dev_plugin_path")?.toString()
+val foliaPluginPath = project.findProperty("nexo_folia_plugin_path")?.toString()
+val spigotPluginPath = project.findProperty("nexo_spigot_plugin_path")?.toString()
 val pluginVersion: String by project
 val commandApiVersion = "9.6.0"
 val adventureVersion = "4.17.0"
@@ -37,7 +36,7 @@ val googleGsonVersion = "2.11.0"
 val apacheLang3Version = "3.17.0"
 val apacheHttpClientVersion = "5.4"
 val creativeVersion = "1.7.3"
-group = "io.th0rgal"
+group = "com.codecraft"
 version = pluginVersion
 
 allprojects {
@@ -56,9 +55,8 @@ allprojects {
         maven("https://repo.triumphteam.dev/snapshots") // actions-code, actions-spigot
         maven("https://mvn.lumine.io/repository/maven-public/") { metadataSources { artifact() } }// MythicMobs
         maven("https://repo.mineinabyss.com/releases")
+        maven("https://repo.mineinabyss.com/snapshots")
         maven("https://s01.oss.sonatype.org/content/repositories/snapshots") // commandAPI snapshots
-        maven("https://repo.oraxen.com/releases")
-        maven("https://repo.oraxen.com/snapshots")
         maven("https://repo.auxilor.io/repository/maven-public/") // EcoItems
         maven("https://maven.enginehub.org/repo/")
         maven("https://jitpack.io") // JitPack
@@ -144,7 +142,7 @@ tasks {
             dependsOn(":${it.nmsVersion}:reobfJar")
         }
 
-        fun shade(pattern: String) = relocate(pattern, "io.th0rgal.oraxen.shaded." + pattern.substringAfter("."))
+        fun shade(pattern: String) = relocate(pattern, "com.codecraft.nexo.shaded." + pattern.substringAfter("."))
 
         shade("org.bstats")
         //shade("dev.triumphteam.gui")
@@ -167,14 +165,14 @@ tasks {
                     "Created-By" to "Gradle ${gradle.gradleVersion}",
                     "Build-Jdk" to "${System.getProperty("java.version")} ${System.getProperty("java.vendor")} ${System.getProperty("java.vm.version")}",
                     "Build-OS" to "${System.getProperty("os.name")} ${System.getProperty("os.arch")} ${System.getProperty("os.version")}",
-                    "Compiled" to (project.findProperty("oraxen_compiled")?.toString() ?: "true").toBoolean(),
-                    "authUsr" to (project.findProperty("oraxenUsername")?.toString() ?: ""),
-                    "authPw" to (project.findProperty("oraxenPassword")?.toString() ?: "")
+                    "Compiled" to (project.findProperty("nexo_compiled")?.toString() ?: "true").toBoolean(),
+                    "authUsr" to (project.findProperty("mavenUser")?.toString() ?: ""),
+                    "authPw" to (project.findProperty("mavenPassword")?.toString() ?: "")
                 )
             )
         }
         exclude("LICENSE", "pack/**")
-        archiveFileName.set("oraxen-${pluginVersion}.jar")
+        archiveFileName.set("nexo-${pluginVersion}.jar")
         archiveClassifier.set("")
     }
 
@@ -182,14 +180,14 @@ tasks {
 }
 
 bukkitPluginYaml {
-    main = "io.th0rgal.oraxen.OraxenPlugin"
+    main = "com.codecraft.nexo.NexoPlugin"
     load = BukkitPluginYaml.PluginLoadOrder.POSTWORLD
     authors.add("boy0000")
-    name = "Oraxen"
+    name = "Nexo"
     apiVersion = "1.20"
 
-    permissions.create("oraxen.command") {
-        description = "Allows the player to use the /oraxen command"
+    permissions.create("nexo.command") {
+        description = "Allows the player to use the /nexo command"
         default = Permission.Default.TRUE
     }
     softDepend = listOf(
@@ -223,7 +221,7 @@ if (pluginPath != null) {
             doLast {
                 println("Copied to plugin directory $pluginPath")
                 Path(pluginPath).listDirectoryEntries()
-                    .filter { it.fileName.toString().matches("oraxen-.*.jar".toRegex()) }
+                    .filter { it.fileName.toString().matches("nexo-.*.jar".toRegex()) }
                     .filterNot { it.fileName.toString().endsWith("$pluginVersion.jar") }
                     .forEach { delete(it) }
             }

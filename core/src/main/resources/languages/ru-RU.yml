@@ -34,27 +34,27 @@ logs:
 
 command:
   help: "<prefix><#b8bbc2>Доступные команды
-        \n<hover:show_text:\"<gray>fill reload command\"><click:SUGGEST_COMMAND:/oraxen reload ><#6f737d>/o
+        \n<hover:show_text:\"<gray>fill reload command\"><click:SUGGEST_COMMAND:/nexo reload ><#6f737d>/o
           <#b8bbc2>reload <#fa8943>тип</click></hover>  <#6f737d>»<#b8bbc2> перезагрузить плагин
-        \n<hover:show_text:\"<gray>fill inv command\"><click:SUGGEST_COMMAND:/oraxen inv><#6f737d>/o
-          <#b8bbc2>inventory</click></hover>  <#6f737d>»<#b8bbc2> показать предметы oraxen в инвентаре
-        \n<hover:show_text:\"<gray>fill pack command\"><click:SUGGEST_COMMAND:/oraxen pack ><#6f737d>/o
+        \n<hover:show_text:\"<gray>fill inv command\"><click:SUGGEST_COMMAND:/nexo inv><#6f737d>/o
+          <#b8bbc2>inventory</click></hover>  <#6f737d>»<#b8bbc2> показать предметы nexo в инвентаре
+        \n<hover:show_text:\"<gray>fill pack command\"><click:SUGGEST_COMMAND:/nexo pack ><#6f737d>/o
           <#b8bbc2>pack <#fa8943>тип <#43c9fa>цель</click></hover>  <#6f737d>»<#b8bbc2> отправить ресурспак игроку
-        \n<hover:show_text:\"<gray>fill repair command\"><click:SUGGEST_COMMAND:/oraxen repair ><#6f737d>/o
+        \n<hover:show_text:\"<gray>fill repair command\"><click:SUGGEST_COMMAND:/nexo repair ><#6f737d>/o
           <#b8bbc2>repair <#fa8943>тип</click></hover>  <#6f737d>»<#b8bbc2> отремонтировать один или все ваши предметы
-        \n<hover:show_text:\"<gray>fill give command\"><click:SUGGEST_COMMAND:/oraxen give ><#6f737d>/o
-          <#b8bbc2>give <#43c9fa>цель <#fa4362>предмет <#43fa8c>количество</click></hover>  <#6f737d>»<#b8bbc2> получить предмет oraxen
-        \n<hover:show_text:\"<gray>fill recipes show command\"><click:SUGGEST_COMMAND:/oraxen recipes show ><#6f737d>/o
+        \n<hover:show_text:\"<gray>fill give command\"><click:SUGGEST_COMMAND:/nexo give ><#6f737d>/o
+          <#b8bbc2>give <#43c9fa>цель <#fa4362>предмет <#43fa8c>количество</click></hover>  <#6f737d>»<#b8bbc2> получить предмет nexo
+        \n<hover:show_text:\"<gray>fill recipes show command\"><click:SUGGEST_COMMAND:/nexo recipes show ><#6f737d>/o
           <#b8bbc2>recipes show <#fa8943>тип</click></hover>  <#6f737d>»<#b8bbc2> показать рецепты
-        \n<hover:show_text:\"<gray>fill recipes builder command\"><click:SUGGEST_COMMAND:/oraxen recipes builder ><#6f737d>/o
+        \n<hover:show_text:\"<gray>fill recipes builder command\"><click:SUGGEST_COMMAND:/nexo recipes builder ><#6f737d>/o
           <#b8bbc2>recipes builder <#fa8943>тип</click></hover>  <#6f737d>»<#b8bbc2> открыть конструктор рецептов
-        \n<hover:show_text:\"<gray>fill recipes save command\"><click:SUGGEST_COMMAND:/oraxen recipes save ><#6f737d>/o
+        \n<hover:show_text:\"<gray>fill recipes save command\"><click:SUGGEST_COMMAND:/nexo recipes save ><#6f737d>/o
           <#b8bbc2>recipes save <#faf443>имя</click></hover>  <#6f737d>»<#b8bbc2> сохранить рецепт"
 
   join: |-
     <dark_gray><st>                             </st><dark_gray>{<aqua><bold>Ресурспак</bold><dark_gray>}<dark_gray><st>                          </st>
     <gray><bold>Чтобы увидеть новые предметы, вам нужно использовать специальный ресурспак (но не волнуйтесь, это не мешает вам использовать свои собственные одновременно).</bold>
-    <dark_gray>»<gray> Попробуйте загрузить его прямо в игре, <click:run_command:"oraxen pack send @p"><hover:show_text:"<red>! загрузка ресурспака из игры может вызвать задержки"><red><bold>НАЖМИТЕ ЗДЕСЬ</bold></hover></click>
+    <dark_gray>»<gray> Попробуйте загрузить его прямо в игре, <click:run_command:"nexo pack send @p"><hover:show_text:"<red>! загрузка ресурспака из игры может вызвать задержки"><red><bold>НАЖМИТЕ ЗДЕСЬ</bold></hover></click>
     <dark_gray>»<gray> Чтобы скачать его архивом, <hover:show_text:"<pack_url> <green>! установите его в  Настройки/Наборы ресурсов в вашей игре"><green><bold><click:OPEN_URL:"<pack_url>">НАЖМИТЕ ЗДЕСЬ</click></bold></hover>
 
   recipe:

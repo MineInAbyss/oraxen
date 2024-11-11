@@ -1,10 +1,3 @@
-# Material list for latest spigot version: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
-# EntityType list for latest spigot version: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
-# Attribute list for latest spigot version: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/attribute/Attribute.html
-# Potion effects list for latest spigot version: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/potion/PotionEffectType.html
-# Random UUID generator: https://www.uuidgenerator.net/
-# Color codes: https://docs.adventure.kyori.net/minimessage.html#format
-
 weed_leaf:
   itemname: "<gradient:#46EEAA:#2CBFC7>Weed Leaf"
   material: COOKED_BEEF
@@ -57,7 +50,7 @@ weed_seed:
       drop:
         silktouch: true
         loots:
-          - { oraxen_item: weed_seed, probability: 1.0 }
+          - { nexo_item: weed_seed, probability: 1.0 }
   Pack:
     generate_model: true
     parent_model: "item/generated"
@@ -86,7 +79,7 @@ weed_plant_stage1:
       drop:
         silktouch: true
         loots:
-          - { oraxen_item: weed_seed, probability: 1.0 }
+          - { nexo_item: weed_seed, probability: 1.0 }
   Pack:
     generate_model: false
     model: default/weed/stage1
@@ -106,7 +99,7 @@ weed_plant_stage2:
       drop:
         silktouch: true
         loots:
-          - { oraxen_item: weed_seed, probability: 1.0 }
+          - { nexo_item: weed_seed, probability: 1.0 }
   Pack:
     generate_model: false
     model: default/weed/stage2
@@ -125,8 +118,8 @@ weed_plant_stage3:
       drop:
         silktouch: true
         loots:
-          - { oraxen_item: weed_seed, max_amount: 2, probability: 0.75 }
-          - { oraxen_item: weed_leaf, max_amount: 5, probability: 0.55 }
+          - { nexo_item: weed_seed, max_amount: 2, probability: 0.75 }
+          - { nexo_item: weed_leaf, max_amount: 5, probability: 0.55 }
   Pack:
     generate_model: false
     model: default/weed/stage3
@@ -156,7 +149,7 @@ grape_seeds:
       drop:
         silktouch: true
         loots:
-          - { oraxen_item: grape_seeds, probability: 1.0 }
+          - { nexo_item: grape_seeds, probability: 1.0 }
   Pack:
     generate_model: true
     parent_model: "item/generated"
@@ -185,7 +178,7 @@ grape_stage1:
       drop:
         silktouch: true
         loots:
-          - { oraxen_item: grape_seeds, probability: 1.0 }
+          - { nexo_item: grape_seeds, probability: 1.0 }
   Pack:
     generate_model: false
     model: default/grape/stage1
@@ -205,7 +198,7 @@ grape_stage2:
       drop:
         silktouch: true
         loots:
-          - { oraxen_item: grape_seeds, probability: 1.0 }
+          - { nexo_item: grape_seeds, probability: 1.0 }
   Pack:
     generate_model: false
     model: default/grape/stage2
@@ -225,7 +218,7 @@ grape_stage3:
       drop:
         silktouch: true
         loots:
-          - { oraxen_item: grape_seeds, probability: 1.0 }
+          - { nexo_item: grape_seeds, probability: 1.0 }
   Pack:
     generate_model: false
     model: default/grape/stage3
@@ -244,8 +237,8 @@ grape_stage4:
       drop:
         silktouch: true
         loots:
-          - { oraxen_item: grape_seeds, max_amount: 2, probability: 0.75 }
-          - { oraxen_item: grape, max_amount: 2, probability: 0.55 }
+          - { nexo_item: grape_seeds, max_amount: 2, probability: 0.75 }
+          - { nexo_item: grape, max_amount: 2, probability: 0.55 }
   Pack:
     generate_model: false
     model: default/grape/stage4

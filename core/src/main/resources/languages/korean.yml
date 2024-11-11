@@ -34,27 +34,27 @@ logs:
 
 command:
   help: "<prefix><#b8bbc2>사용 가능한 명령어
-        \n<hover:show_text:\"<gray>리로드 명령어\"><click:SUGGEST_COMMAND:/oraxen reload ><#6f737d>/o
+        \n<hover:show_text:\"<gray>리로드 명령어\"><click:SUGGEST_COMMAND:/nexo reload ><#6f737d>/o
           <#b8bbc2>리로드 <#fa8943>유형</click></hover>  <#6f737d>»<#b8bbc2> 플러그인을 리로드합니다
-        \n<hover:show_text:\"<gray>인벤토리 명령어\"><click:SUGGEST_COMMAND:/oraxen inv><#6f737d>/o
+        \n<hover:show_text:\"<gray>인벤토리 명령어\"><click:SUGGEST_COMMAND:/nexo inv><#6f737d>/o
           <#b8bbc2>인벤토리</click></hover>  <#6f737d>»<#b8bbc2> 인벤토리에 있는 Oraxen 아이템을 표시합니다
-        \n<hover:show_text:\"<gray>팩 명령어\"><click:SUGGEST_COMMAND:/oraxen pack ><#6f737d>/o
+        \n<hover:show_text:\"<gray>팩 명령어\"><click:SUGGEST_COMMAND:/nexo pack ><#6f737d>/o
           <#b8bbc2>팩 <#fa8943>유형 <#43c9fa>대상</click></hover>  <#6f737d>»<#b8bbc2> Oraxen 팩을 보냅니다
-        \n<hover:show_text:\"<gray>수리 명령어\"><click:SUGGEST_COMMAND:/oraxen repair ><#6f737d>/o
+        \n<hover:show_text:\"<gray>수리 명령어\"><click:SUGGEST_COMMAND:/nexo repair ><#6f737d>/o
           <#b8bbc2>수리 <#fa8943>유형</click></hover>  <#6f737d>»<#b8bbc2> 당신의 아이템 중 하나 또는 모두를 수리합니다
-        \n<hover:show_text:\"<gray>아이템 지급 명령어\"><click:SUGGEST_COMMAND:/oraxen give ><#6f737d>/o
+        \n<hover:show_text:\"<gray>아이템 지급 명령어\"><click:SUGGEST_COMMAND:/nexo give ><#6f737d>/o
           <#b8bbc2>지급 <#43c9fa>대상 <#fa4362>아이템 <#43fa8c>수량</click></hover>  <#6f737d>»<#b8bbc2> Oraxen 아이템을 지급합니다
-        \n<hover:show_text:\"<gray>레시피 표시 명령어\"><click:SUGGEST_COMMAND:/oraxen recipes show ><#6f737d>/o
+        \n<hover:show_text:\"<gray>레시피 표시 명령어\"><click:SUGGEST_COMMAND:/nexo recipes show ><#6f737d>/o
           <#b8bbc2>레시피 표시 <#fa8943>유형</click></hover>  <#6f737d>»<#b8bbc2> 레시피를 표시합니다
-        \n<hover:show_text:\"<gray>레시피 제작 명령어\"><click:SUGGEST_COMMAND:/oraxen recipes builder ><#6f737d>/o
+        \n<hover:show_text:\"<gray>레시피 제작 명령어\"><click:SUGGEST_COMMAND:/nexo recipes builder ><#6f737d>/o
           <#b8bbc2>레시피 빌더 <#fa8943>유형</click></hover>  <#6f737d>»<#b8bbc2> 레시피 빌더를 엽니다
-        \n<hover:show_text:\"<gray>레시피 저장 명령어\"><click:SUGGEST_COMMAND:/oraxen recipes save ><#6f737d>/o
+        \n<hover:show_text:\"<gray>레시피 저장 명령어\"><click:SUGGEST_COMMAND:/nexo recipes save ><#6f737d>/o
           <#b8bbc2>레시피 저장 <#faf443>이름</click></hover>  <#6f737d>»<#b8bbc2> 레시피를 저장합니다"
 
   join: |-
     <dark_gray><st>                           </st><dark_gray>{<aqua><bold>리소스 팩</bold><dark_gray>}<dark_gray><st>                        </st>
     <gray><bold>새로운 아이템을 보려면 Oraxen전용 리소스 팩을 사용해야합니다 (하지만 걱정하지 마세요, 이것은 동시에 여러분이 사용 중인 리소스 팩을 사용하는 것을 방해하지 않습니다).</bold>
-    <dark_gray>»<gray> 게임에서 직접로드하려면, <click:run_command:"oraxen pack send @p"><hover:show_text:"<red>! 게임에서 리소스 팩을 로드하는 것은 렉을 유발할 수 있습니다"><red><bold>여기를 클릭하세요</bold></hover></click>
+    <dark_gray>»<gray> 게임에서 직접로드하려면, <click:run_command:"nexo pack send @p"><hover:show_text:"<red>! 게임에서 리소스 팩을 로드하는 것은 렉을 유발할 수 있습니다"><red><bold>여기를 클릭하세요</bold></hover></click>
     <dark_gray>»<gray> 인터넷에서 다운로드하려면, <hover:show_text:"<pack_url> <green>! 게임의 옵션/리소스 팩에서 설치하십시오"><green><bold><click:OPEN_URL:"<pack_url>">여기를 클릭하세요</click></bold></hover>
 
   recipe:

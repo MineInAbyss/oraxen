@@ -1,11 +1,3 @@
-# Material list for latest spigot version: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
-# EntityType list for latest spigot version: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
-# Attribute list for latest spigot version: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/attribute/Attribute.html
-# Potion effects list for latest spigot version: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/potion/PotionEffectType.html
-# Random UUID generator: https://www.uuidgenerator.net/
-# Color codes: https://docs.adventure.kyori.net/minimessage.html#format
-
-
 amethyst_ore:
   itemname: '<gradient:#4B36B1:#6699FF>Amethyst Ore'
   material: PAPER
@@ -30,7 +22,7 @@ amethyst_ore:
         best_tools:
           - PICKAXE
         loots:
-          - oraxen_item: amethyst
+          - nexo_item: amethyst
             probability: 1.0
 
 ruby_ore:
@@ -57,7 +49,7 @@ ruby_ore:
         best_tools:
           - PICKAXE
         loots:
-          - oraxen_item: ruby
+          - nexo_item: ruby
             probability: 1.0
 
 
@@ -85,7 +77,7 @@ onyx_ore:
         best_tools:
           - PICKAXE
         loots:
-          - oraxen_item: onyx
+          - nexo_item: onyx
             probability: 1.0
 
 orax_ore:
@@ -112,5 +104,5 @@ orax_ore:
         best_tools:
           - PICKAXE
         loots:
-          - oraxen_item: orax
+          - nexo_item: orax
             probability: 1.0

@@ -18,47 +18,21 @@ misc:
 
 # GAMEPLAY
 noteblock:
-  tool_types:
-    - WOODEN
-    - STONE
-    - IRON
-    - GOLDEN
-    - DIAMOND
-    - NETHERITE
+  tool_types: [ WOODEN, STONE, IRON, GOLDEN, DIAMOND, NETHERITE ]
   # Reimplements noteblock features while using custom blocks
   # Adds instrument option in noteblock mechanics
   reimplement_noteblock_features: false
   custom_block_sounds: true
   enabled: true
 stringblock:
-    tool_types:
-      - WOODEN
-      - STONE
-      - IRON
-      - GOLDEN
-      - DIAMOND
-      - NETHERITE
+    tool_types: [ WOODEN, STONE, IRON, GOLDEN, DIAMOND, NETHERITE ]
     sapling_growth_check_delay: 4000
     disable_vanilla_strings: false
     custom_block_sounds: true
     enabled: true
 furniture:
-  default_furniture_type: DISPLAY_ENTITY # DISPLAY_ENTITY, ITEM_FRAME, GLOW_ITEM_FRAME
-  tool_types:
-    - WOODEN
-    - STONE
-    - IRON
-    - GOLDEN
-    - DIAMOND
-    - NETHERITE
-  # ticks between each check for plant growth
+  tool_types: [ WOODEN, STONE, IRON, GOLDEN, DIAMOND, NETHERITE ]
   evolution_check_delay: 200
-  enabled: true
-
-# COSMETIC
-aura:
-  enabled: true
-hat:
   enabled: true
 
 
@@ -86,8 +60,5 @@ smelting:
   # To remove an item that should not be cooked, add it here !
   blacklist_cooked:
     - WET_SPONGE
-bottledexp:
-  enabled: true
-  durability_cost: 10
 harvesting:
   enabled: true
