@@ -122,7 +122,7 @@ public class JukeboxListener implements Listener {
 
     @Nullable
     private Key getSongFromDisc(ItemStack disc) {
-        if (VersionUtil.atOrAbove("1.21")) {
+        if (VersionUtil.atleast("1.21")) {
             return disc.hasItemMeta() && disc.getItemMeta().hasJukeboxPlayable()
                     ? disc.getItemMeta().getJukeboxPlayable().getSongKey().key()
                     : null;

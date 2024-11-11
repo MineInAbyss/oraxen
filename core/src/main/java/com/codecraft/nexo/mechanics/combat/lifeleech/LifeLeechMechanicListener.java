@@ -1,8 +1,8 @@
 package com.codecraft.nexo.mechanics.combat.lifeleech;
 
 import com.codecraft.nexo.api.NexoItems;
+import com.codecraft.nexo.utils.wrappers.AttributeWrapper;
 import io.th0rgal.protectionlib.ProtectionLib;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,7 +29,7 @@ public class LifeLeechMechanicListener implements Listener {
         LifeLeechMechanic mechanic = factory.getMechanic(itemID);
         if (mechanic == null) return;
 
-        double maxHealth = damager.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+        double maxHealth = damager.getAttribute(AttributeWrapper.MAX_HEALTH).getValue();
         damager.setHealth(Math.min(damager.getHealth() + mechanic.getAmount(), maxHealth));
         livingEntity.setHealth(Math.max(livingEntity.getHealth() - mechanic.getAmount(), 0));
     }

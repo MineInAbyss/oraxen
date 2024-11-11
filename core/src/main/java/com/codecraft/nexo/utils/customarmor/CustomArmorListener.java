@@ -43,7 +43,7 @@ public class CustomArmorListener implements Listener {
     public void onTrimCustomArmor(PrepareSmithingEvent event) {
         SmithingInventory inventory = event.getInventory();
         ItemStack armorPiece = inventory.getInputEquipment();
-        if (!Settings.CUSTOM_ARMOR_ENABLED.toBool()) return;
+        if (CustomArmorType.getSetting() == CustomArmorType.NONE) return;
         if (armorPiece == null || !armorPiece.hasItemMeta() || !NexoItems.exists(armorPiece)) return;
         if (!armorPiece.hasItemMeta() || !(armorPiece.getItemMeta() instanceof ArmorMeta armorMeta)) return;
         if (!armorMeta.hasTrim() || !armorMeta.getTrim().getPattern().key().namespace().equals("nexo")) return;
@@ -69,7 +69,7 @@ public class CustomArmorListener implements Listener {
     }
 
     private void setVanillaArmorTrim(ItemStack itemStack) {
-        if (!Settings.CUSTOM_ARMOR_ENABLED.toBool()) return;
+        if (CustomArmorType.getSetting() == CustomArmorType.NONE) return;
         if (itemStack == null || !(itemStack.getItemMeta() instanceof ArmorMeta armorMeta)) return;
         if (!itemStack.getType().name().startsWith("CHAINMAIL")) return;
         if (armorMeta.hasTrim() && armorMeta.getTrim().getPattern().key().namespace().equals("nexo")) return;

@@ -9,6 +9,7 @@ import com.codecraft.nexo.utils.AdventureUtils;
 import com.codecraft.nexo.utils.EnumUtils;
 import com.codecraft.nexo.utils.NexoYaml;
 import com.codecraft.nexo.utils.VersionUtil;
+import com.codecraft.nexo.utils.customarmor.CustomArmorType;
 import com.codecraft.nexo.utils.logs.Logs;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -62,7 +63,8 @@ public enum Settings {
     ERROR_ITEM("ConfigsTools.error_item", Map.of("material", Material.PODZOL.name(), "excludeFromInventory", false, "injectID", false)),
 
     // Custom Armor
-    CUSTOM_ARMOR_ENABLED("CustomArmor.enabled", true),
+    CUSTOM_ARMOR_TYPE("CustomArmor.type", VersionUtil.atleast("1.21.2") ? CustomArmorType.COMPONENT : CustomArmorType.TRIMS),
+    CUSTOM_ARMOR_COMPONENT_ASSIGN("CustomArmor.component_settings.auto_assign_component", true),
     CUSTOM_ARMOR_TRIMS_ASSIGN("CustomArmor.auto_assign_settings", true),
 
     // Custom Blocks

@@ -73,4 +73,19 @@ public class NexoYaml extends YamlConfiguration {
             // or provide default values and continue.
         }
     }
+
+    public static void copyConfigurationSection(ConfigurationSection source, ConfigurationSection target) {
+        for (String key : source.getKeys(false)) {
+            Object sourceValue = source.get(key), targetValue = target.get(key);
+
+            if (sourceValue instanceof ConfigurationSection sourceSection) {
+                ConfigurationSection targetSection;
+                if (targetValue instanceof ConfigurationSection existingSection) {
+                    targetSection = existingSection;
+                } else targetSection = target.createSection(key);
+                copyConfigurationSection(sourceSection, targetSection);
+            } else target.set(key, sourceValue);
+        }
+    }
+
 }

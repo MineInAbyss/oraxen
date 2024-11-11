@@ -330,7 +330,7 @@ public class ConfigsManager {
 
         if (configUpdated) {
             String content = config.saveToString();
-            if (VersionUtil.atOrAbove("1.20.5"))
+            if (VersionUtil.atleast("1.20.5"))
                 content = content.replace("displayname: ", "itemname: ");
             else content = content.replace("itemname: ", "displayname: ");
 

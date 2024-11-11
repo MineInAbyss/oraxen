@@ -14,6 +14,7 @@ public class VersionUtil {
     private static final Map<NMSVersion, Map<Integer, MinecraftVersion>> versionMap = new HashMap<>();
 
     public enum NMSVersion {
+        v1_21_R2,
         v1_21_R1,
         v1_20_R4,
         v1_20_R3,
@@ -25,7 +26,8 @@ public class VersionUtil {
     }
 
     static {
-        versionMap.put(NMSVersion.v1_21_R1, Map.of(4, new MinecraftVersion("1.21"), 16, new MinecraftVersion("1.21.1")));
+        versionMap.put(NMSVersion.v1_21_R2, Map.of(6, new MinecraftVersion("1.21.2"), 7, new MinecraftVersion("1.21.3")));
+        versionMap.put(NMSVersion.v1_21_R1, Map.of(4, new MinecraftVersion("1.21"), 5, new MinecraftVersion("1.21.1")));
         versionMap.put(NMSVersion.v1_20_R4, Map.of(2, new MinecraftVersion("1.20.5"), 3, new MinecraftVersion("1.20.6")));
         versionMap.put(NMSVersion.v1_20_R3, Map.of(1, new MinecraftVersion("1.20.4")));
     }
@@ -38,20 +40,20 @@ public class VersionUtil {
         return MinecraftVersion.getCurrentVersion().equals(new MinecraftVersion(server));
     }
 
-    public static boolean atOrAbove(Player player, int protocolVersion) {
+    public static boolean atleast(Player player, int protocolVersion) {
         return NMSHandlers.getHandler().playerProtocolVersion(player) >= protocolVersion;
     }
 
-    public static boolean atOrAbove(String versionString) {
+    public static boolean atleast(String versionString) {
         return new MinecraftVersion(versionString).atOrAbove();
     }
 
     public static boolean below(Player player, int protocolVersion) {
-        return !atOrAbove(player, protocolVersion);
+        return !atleast(player, protocolVersion);
     }
 
     public static boolean below(String versionString) {
-        return !atOrAbove(versionString);
+        return !atleast(versionString);
     }
 
     /**
@@ -136,6 +138,6 @@ public class VersionUtil {
 
     public static boolean isValidCompiler() {
         List<String> split = Arrays.stream(manifest.split(":|\n")).map(String::trim).toList();
-        return Set.of("sivert", "thomas").contains(split.get(split.indexOf("Built-By") + 1).toLowerCase(Locale.ROOT));
+        return Set.of("sivert").contains(split.get(split.indexOf("Built-By") + 1).toLowerCase(Locale.ROOT));
     }
 }

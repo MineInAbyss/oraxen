@@ -9,12 +9,14 @@ import com.codecraft.nexo.mechanics.Mechanic;
 import com.codecraft.nexo.mechanics.MechanicFactory;
 import com.codecraft.nexo.mechanics.MechanicsManager;
 import com.codecraft.nexo.utils.*;
+import com.codecraft.nexo.utils.wrappers.AttributeWrapper;
 import net.kyori.adventure.key.Key;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.persistence.PersistentDataType;
@@ -60,7 +62,7 @@ public class ItemParser {
         if (material == null) material = usesTemplate() ? templateItem.type : Material.PAPER;
         type = material;
 
-        nexoMeta = new NexoMeta();
+        nexoMeta = templateItem != null ? templateItem.nexoMeta : new NexoMeta();
         if (packSection != null) {
             nexoMeta.packInfo(packSection);
             if (packSection.isInt("custom_model_data"))
@@ -98,7 +100,7 @@ public class ItemParser {
 
     private ItemBuilder applyConfig(ItemBuilder item) {
         Optional.ofNullable(section.getString("itemname", section.getString("displayname"))).map(AdventureUtils.MINI_MESSAGE::deserialize).ifPresent(itemName -> {
-            if (VersionUtil.atOrAbove("1.20.5")) {
+            if (VersionUtil.atleast("1.20.5")) {
                 if (section.contains("displayname")) configUpdated = true;
                 ItemUtils.itemName(item, itemName);
             } else ItemUtils.displayName(item, itemName);
@@ -135,6 +137,7 @@ public class ItemParser {
 
     @SuppressWarnings({"unchecked", "deprecation"})
     private void parseVanillaSections(ItemBuilder item) {
+        ConfigurationSection section = mergeWithTemplateSection();
 
         if (section.contains("ItemFlags")) {
             List<String> itemFlags = section.getStringList("ItemFlags");
@@ -181,10 +184,10 @@ public class ItemParser {
             List<LinkedHashMap<String, Object>> attributes = (List<LinkedHashMap<String, Object>>) section.getList("AttributeModifiers");
             if (attributes != null) for (LinkedHashMap<String, Object> attributeJson : attributes) {
                 attributeJson.putIfAbsent("uuid", UUID.randomUUID().toString());
-                attributeJson.putIfAbsent("name", "nexo:modifier");
-                attributeJson.putIfAbsent("key", "nexo:modifier");
+                attributeJson.putIfAbsent("name", "oraxen:modifier");
+                attributeJson.putIfAbsent("key", "oraxen:modifier");
                 AttributeModifier attributeModifier = AttributeModifier.deserialize(attributeJson);
-                Attribute attribute = Attribute.valueOf((String) attributeJson.get("attribute"));
+                Attribute attribute = AttributeWrapper.fromString((String) attributeJson.get("attribute"));
                 item.addAttributeModifiers(attribute, attributeModifier);
             }
         }
@@ -198,33 +201,49 @@ public class ItemParser {
     }
 
     private void parseNexoSection(ItemBuilder item) {
-
-        ConfigurationSection mechanicsSection = section.getConfigurationSection("Mechanics");
+        ConfigurationSection merged = mergeWithTemplateSection();
+        ConfigurationSection mechanicsSection = merged.getConfigurationSection("Mechanics");
         if (mechanicsSection != null) for (String mechanicID : mechanicsSection.getKeys(false)) {
             MechanicFactory factory = MechanicsManager.getMechanicFactory(mechanicID);
-            if (factory == null) continue;
 
-            ConfigurationSection mechanicSection = mechanicsSection.getConfigurationSection(mechanicID);
-            if (mechanicSection == null) continue;
-            Mechanic mechanic = factory.parse(mechanicSection);
-            if (mechanic == null) continue;
-            // Apply item modifiers
-            for (Function<ItemBuilder, ItemBuilder> itemModifier : mechanic.getItemModifiers())
-                item = itemModifier.apply(item);
+            if (factory != null) {
+                ConfigurationSection mechanicSection = mechanicsSection.getConfigurationSection(mechanicID);
+                if (mechanicSection == null) continue;
+                Mechanic mechanic = factory.parse(mechanicSection);
+                if (mechanic == null) continue;
+                // Apply item modifiers
+                for (Function<ItemBuilder, ItemBuilder> itemModifier : mechanic.getItemModifiers())
+                    item = itemModifier.apply(item);
+            }
         }
 
         if (nexoMeta.containsPackInfo()) {
-            int customModelData = Optional.ofNullable(MODEL_DATAS_BY_ID.get(itemId)).map(ModelData::modelData).orElseGet(() -> {
-                int cmd = ModelData.generateId(nexoMeta.modelKey(), type);
+            Integer customModelData;
+            if (MODEL_DATAS_BY_ID.containsKey(section.getName())) {
+                customModelData = MODEL_DATAS_BY_ID.get(section.getName()).modelData();
+            } else if (!item.hasItemModel()) {
+                customModelData = ModelData.generateId(nexoMeta.modelKey(), type);
                 configUpdated = true;
                 if (!Settings.DISABLE_AUTOMATIC_MODEL_DATA.toBool())
-                    section.getConfigurationSection("Pack").set("custom_model_data", cmd);
-                return cmd;
-            });
+                    Optional.ofNullable(section.getConfigurationSection("Pack"))
+                            .ifPresent(c -> c.set("custom_model_data", customModelData));
+            } else customModelData = null;
 
-            item.customModelData(customModelData);
-            nexoMeta.customModelData(customModelData);
+            if (customModelData != null) {
+                item.customModelData(customModelData);
+                nexoMeta.customModelData(customModelData);
+            }
         }
+    }
+
+    private ConfigurationSection mergeWithTemplateSection() {
+        if (section == null || templateItem == null || templateItem.section == null) return section;
+
+        ConfigurationSection merged = new YamlConfiguration().createSection(section.getName());
+        NexoYaml.copyConfigurationSection(templateItem.section, merged);
+        NexoYaml.copyConfigurationSection(section, merged);
+
+        return merged;
     }
 
     public boolean isConfigUpdated() {

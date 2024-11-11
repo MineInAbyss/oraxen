@@ -20,7 +20,8 @@ infix fun String.toNms(that: String) = NMSVersion(this, that)
 val SUPPORTED_VERSIONS: List<NMSVersion> = listOf(
     "v1_20_R3" toNms "1.20.4-R0.1-SNAPSHOT",
     "v1_20_R4" toNms "1.20.6-R0.1-SNAPSHOT",
-    "v1_21_R1" toNms "1.21-R0.1-SNAPSHOT"
+    "v1_21_R1" toNms "1.21.1-R0.1-SNAPSHOT",
+    "v1_21_R2" toNms "1.21.3-R0.1-SNAPSHOT"
 )
 
 val compiled = (project.findProperty("nexo_compiled")?.toString() ?: "true").toBoolean()
@@ -29,7 +30,7 @@ val devPluginPath = project.findProperty("nexo_dev_plugin_path")?.toString()
 val foliaPluginPath = project.findProperty("nexo_folia_plugin_path")?.toString()
 val spigotPluginPath = project.findProperty("nexo_spigot_plugin_path")?.toString()
 val pluginVersion: String by project
-val commandApiVersion = "9.6.0"
+val commandApiVersion = "9.6.1"
 val adventureVersion = "4.17.0"
 val platformVersion = "4.3.4"
 val googleGsonVersion = "2.11.0"
@@ -56,6 +57,7 @@ allprojects {
         maven("https://mvn.lumine.io/repository/maven-public/") { metadataSources { artifact() } }// MythicMobs
         maven("https://repo.mineinabyss.com/releases")
         maven("https://repo.mineinabyss.com/snapshots")
+        maven("https://repo.oraxen.com/releases")
         maven("https://s01.oss.sonatype.org/content/repositories/snapshots") // commandAPI snapshots
         maven("https://repo.auxilor.io/repository/maven-public/") // EcoItems
         maven("https://maven.enginehub.org/repo/")
@@ -99,6 +101,7 @@ allprojects {
         implementation("team.unnamed:creative-serializer-minecraft:$creativeVersion") { exclude("net.kyori") }
         implementation("dev.jorel:commandapi-bukkit-shade:$commandApiVersion")
         implementation("org.bstats:bstats-bukkit:3.1.0")
+        implementation("org.glassfish:javax.json:1.1.4")
         implementation("io.th0rgal:protectionlib:1.6.2")
         implementation("com.github.stefvanschie.inventoryframework:IF:0.10.12")
         implementation("com.jeff-media:custom-block-data:2.2.2")
@@ -209,7 +212,7 @@ bukkitPluginYaml {
     )
 }
 
-if (pluginPath != null) {
+if (spigotPluginPath != null) {
     tasks {
         val defaultPath = findByName("shadowJar") ?: findByName("jar")
         // Define the main copy task
@@ -217,10 +220,10 @@ if (pluginPath != null) {
             this.doNotTrackState("Overwrites the plugin jar to allow for easier reloading")
             dependsOn(shadowJar, jar)
             from(defaultPath)
-            into(pluginPath)
+            into(spigotPluginPath)
             doLast {
-                println("Copied to plugin directory $pluginPath")
-                Path(pluginPath).listDirectoryEntries()
+                println("Copied to plugin directory $spigotPluginPath")
+                Path(spigotPluginPath).listDirectoryEntries()
                     .filter { it.fileName.toString().matches("nexo-.*.jar".toRegex()) }
                     .filterNot { it.fileName.toString().endsWith("$pluginVersion.jar") }
                     .forEach { delete(it) }

@@ -3,6 +3,7 @@ package com.codecraft.nexo.recipes.listeners;
 import com.codecraft.nexo.NexoPlugin;
 import com.codecraft.nexo.api.NexoItems;
 import com.codecraft.nexo.config.Settings;
+import com.codecraft.nexo.mechanics.misc.misc.MiscMechanicFactory;
 import com.codecraft.nexo.recipes.CustomRecipe;
 import com.codecraft.nexo.utils.InventoryUtils;
 import org.bukkit.Bukkit;
@@ -63,7 +64,7 @@ public class RecipesEventsManager implements Listener {
         if (!hasPermission(player, customRecipe)) event.getInventory().setResult(null);
 
         ItemStack result = event.getInventory().getResult();
-        if (result == null || recipe == null || customRecipe == null || customRecipe.isValidDyeRecipe()) return;
+        if (result == null || recipe == null || customRecipe == null || customRecipe.isValidDyeRecipe() || MiscMechanicFactory.get() == null) return;
         if (Arrays.stream(event.getInventory().getMatrix()).noneMatch(NexoItems::exists)) return;
         if (whitelistedCraftRecipes.stream().anyMatch(customRecipe::equals)) return;
 

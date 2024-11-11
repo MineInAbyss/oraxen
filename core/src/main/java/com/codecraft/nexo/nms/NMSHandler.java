@@ -1,9 +1,11 @@
 package com.codecraft.nexo.nms;
 
+import com.codecraft.nexo.items.ItemBuilder;
 import com.codecraft.nexo.mechanics.furniture.IFurniturePacketManager;
 import com.codecraft.nexo.utils.InteractionResult;
 import com.codecraft.nexo.utils.wrappers.PotionEffectTypeWrapper;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -53,6 +55,10 @@ public interface NMSHandler {
      * @return The enum interaction result
      */
     @Nullable InteractionResult correctBlockStates(Player player, EquipmentSlot slot, ItemStack itemStack);
+
+    default void foodComponent(ItemBuilder itemBuilder, ConfigurationSection foodSection) {}
+
+    default void consumableComponent(ItemBuilder itemBuilder, ConfigurationSection consumableSection) {}
 
     /**
      * Keys that are used by vanilla Minecraft and should therefore be skipped

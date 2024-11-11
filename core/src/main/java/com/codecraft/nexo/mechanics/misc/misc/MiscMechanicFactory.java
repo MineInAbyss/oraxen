@@ -4,6 +4,8 @@ import com.codecraft.nexo.NexoPlugin;
 import com.codecraft.nexo.mechanics.Mechanic;
 import com.codecraft.nexo.mechanics.MechanicFactory;
 import com.codecraft.nexo.mechanics.MechanicsManager;
+import com.codecraft.nexo.utils.VersionUtil;
+import com.codecraft.nexo.utils.logs.Logs;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
@@ -18,7 +20,18 @@ public class MiscMechanicFactory extends MechanicFactory {
 
     @Override
     public Mechanic parse(ConfigurationSection section) {
-        Mechanic mechanic = new MiscMechanic(this, section);
+        MiscMechanic mechanic = new MiscMechanic(this, section);
+
+        if (VersionUtil.atleast("1.21.2")) {
+            if (!mechanic.burnsInLava() || !mechanic.burnsInLava()) {
+                Logs.logWarning(mechanic.getItemID() + " is using deprecated Misc-Mechanic burns_in_fire/lava...");
+                Logs.logWarning("It is heavily advised to swap to the new `damage_resistant`-component on 1.21.2+ servers...");
+            } else if (!mechanic.breaksFromCactus()) {
+                Logs.logWarning(mechanic.getItemID() + " is using deprecated Misc-Mechanic breaks_from_cactus...");
+                Logs.logWarning("It is heavily advised to swap to the new `damage_resistant`-component on 1.21.2+ servers...");
+            }
+        }
+
         addToImplemented(mechanic);
         return mechanic;
     }

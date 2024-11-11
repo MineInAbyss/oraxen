@@ -53,7 +53,7 @@ public class NexoItems {
      * For example FoodComponent#getUsingConvertsTo
      */
     private static void ensureComponentDataHandled() {
-        if (VersionUtil.atOrAbove("1.21")) for (final Entry<File, Map<String, ItemBuilder>> entry : map.entrySet()) {
+        if (VersionUtil.atleast("1.21")) for (final Entry<File, Map<String, ItemBuilder>> entry : map.entrySet()) {
             Map<String, ItemBuilder> subMap = entry.getValue();
             for (final Entry<String, ItemBuilder> subEntry : subMap.entrySet()) {
                 String itemId = subEntry.getKey();
@@ -64,7 +64,7 @@ public class NexoItems {
 
                 ConfigurationSection section = NexoYaml.loadConfiguration(entry.getKey()).getConfigurationSection(itemId + ".Components.food.replacement");
                 ItemStack replacementItem = parseFoodComponentReplacement(section);
-                foodComponent.setUsingConvertsTo(replacementItem);
+                //foodComponent.setUsingConvertsTo(replacementItem);
                 itemBuilder.setFoodComponent(foodComponent).regen();
             }
         }

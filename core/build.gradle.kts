@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.3-R0.1-SNAPSHOT")
 }
 
 java {
@@ -41,8 +41,8 @@ publishing {
         maven {
             authentication {
                 credentials(PasswordCredentials::class) {
-                    username = System.getenv("MAVEN_USERNAME") ?: project.findProperty("oraxenUsername") as? String ?: ""
-                    password = System.getenv("MAVEN_PASSWORD") ?: project.findProperty("oraxenPassword") as? String ?: ""
+                    username = System.getenv("MAVEN_USERNAME") ?: project.findProperty("mavenUser") as? String ?: ""
+                    password = System.getenv("MAVEN_PASSWORD") ?: project.findProperty("mavenPassword") as? String ?: ""
                 }
                 authentication {
                     create<BasicAuthentication>("basic")
@@ -50,7 +50,7 @@ publishing {
             }
 
             url = uri(publishData.getRepository())
-            name = "nexo"
+            name = "mineinabyss"
         }
     }
 }

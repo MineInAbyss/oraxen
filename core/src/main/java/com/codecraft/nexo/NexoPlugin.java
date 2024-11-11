@@ -72,7 +72,7 @@ public class NexoPlugin extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        CommandAPI.onLoad(new CommandAPIBukkitConfig(this).silentLogs(true));
+        CommandAPI.onLoad(new CommandAPIBukkitConfig(this).silentLogs(true).skipReloadDatapacks(true));
     }
 
     @Override
@@ -84,7 +84,7 @@ public class NexoPlugin extends JavaPlugin {
         clickActionManager = new ClickActionManager(this);
         fontManager = new FontManager(configsManager);
         soundManager = new SoundManager(configsManager.getSounds());
-        breakerManager = VersionUtil.atOrAbove("1.20.5") ? new ModernBreakerManager(new ConcurrentHashMap<>())
+        breakerManager = VersionUtil.atleast("1.20.5") ? new ModernBreakerManager(new ConcurrentHashMap<>())
                 : new LegacyBreakerManager(new ConcurrentHashMap<>());
         ProtectionLib.setDebug(Settings.DEBUG.toBool());
 

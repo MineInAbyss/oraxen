@@ -1,6 +1,5 @@
 package com.codecraft.nexo.utils.customarmor;
 
-import com.codecraft.nexo.NexoPlugin;
 import com.codecraft.nexo.api.NexoItems;
 import com.codecraft.nexo.config.Settings;
 import com.codecraft.nexo.items.ItemBuilder;
@@ -29,7 +28,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @SuppressWarnings({"deprecation", "CallToPrintStackTrace", "ResultOfMethodCallIgnored", "UnstableApiUsage"})
-public class CustomArmorDatapack {
+public class TrimsCustomArmor {
 
     public enum TrimArmorMaterial {
         CHAINMAIL, LEATHER, IRON, GOLD, DIAMOND, NETHERITE;
@@ -48,7 +47,7 @@ public class CustomArmorDatapack {
     private final Key palleteKey;
     private final Map<String, Key> permutations = new LinkedHashMap<>();
 
-    public CustomArmorDatapack() {
+    public TrimsCustomArmor() {
         JsonObject data = new JsonObject();
         data.addProperty("description", "Datapack for Nexos Custom Armor trims");
         data.addProperty("pack_format", 26);
@@ -70,8 +69,7 @@ public class CustomArmorDatapack {
         this.datapackEnabled = isDatapackEnabled();
     }
 
-    public void generateTrimAssets() {
-        ResourcePack resourcePack = NexoPlugin.get().packGenerator().resourcePack();
+    public void generateTrimAssets(ResourcePack resourcePack) {
         LinkedHashSet<String> armorPrefixes = armorPrefixes(resourcePack);
         customArmorDatapack.toPath().resolve("data").toFile().mkdirs();
         writeMCMeta();
@@ -97,7 +95,7 @@ public class CustomArmorDatapack {
     }
 
     private static void writeVanillaTrimPattern() {
-        File vanillaArmorJson = CustomArmorDatapack.customArmorDatapack.toPath().resolve("data/minecraft/trim_pattern/chainmail.json").toFile();
+        File vanillaArmorJson = TrimsCustomArmor.customArmorDatapack.toPath().resolve("data/minecraft/trim_pattern/chainmail.json").toFile();
         vanillaArmorJson.getParentFile().mkdirs();
         JsonObject vanillaTrimPattern = new JsonObject();
         JsonObject description = new JsonObject();
@@ -116,7 +114,7 @@ public class CustomArmorDatapack {
 
     private static void writeCustomTrimPatterns(LinkedHashSet<String> armorPrefixes) {
         for (String armorPrefix : armorPrefixes) {
-            File armorJson = CustomArmorDatapack.customArmorDatapack.toPath().resolve("data/nexo/trim_pattern/" + armorPrefix + ".json").toFile();
+            File armorJson = TrimsCustomArmor.customArmorDatapack.toPath().resolve("data/nexo/trim_pattern/" + armorPrefix + ".json").toFile();
             armorJson.getParentFile().mkdirs();
             JsonObject trimPattern = new JsonObject();
             JsonObject description = new JsonObject();
@@ -200,7 +198,7 @@ public class CustomArmorDatapack {
 
     private void writeMCMeta() {
         try {
-            File packMeta = CustomArmorDatapack.customArmorDatapack.toPath().resolve("pack.mcmeta").toFile();
+            File packMeta = TrimsCustomArmor.customArmorDatapack.toPath().resolve("pack.mcmeta").toFile();
             packMeta.createNewFile();
             FileUtils.writeStringToFile(packMeta, datapackMeta.toString(), StandardCharsets.UTF_8);
         } catch (IOException e) {

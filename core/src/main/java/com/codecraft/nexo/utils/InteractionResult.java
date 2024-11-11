@@ -26,4 +26,8 @@ public enum InteractionResult {
     public static InteractionResult fromNms(Enum<?> nmsEnum) {
         return valueOf(nmsEnum.name());
     }
+
+    public static InteractionResult fromNms(Class<?> nmsClass) {
+        return valueOf(nmsClass.getName().toUpperCase());
+    }
 }

@@ -3,9 +3,9 @@ package com.codecraft.nexo.utils.breaker;
 import com.codecraft.nexo.mechanics.BreakableMechanic;
 import com.codecraft.nexo.mechanics.custom_block.CustomBlockMechanic;
 import com.codecraft.nexo.mechanics.furniture.FurnitureMechanic;
+import com.codecraft.nexo.utils.wrappers.AttributeWrapper;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ItemDisplay;
@@ -64,12 +64,12 @@ public class ModernBreakerManager implements BreakerManager {
     private void addTransientModifier(Player player, AttributeModifier modifier) {
         removeTransientModifier(player);
         modifierMap.put(player.getUniqueId(), modifier);
-        Optional.ofNullable(player.getAttribute(Attribute.PLAYER_BLOCK_BREAK_SPEED)).ifPresent(a -> a.addTransientModifier(modifier));
+        Optional.ofNullable(player.getAttribute(AttributeWrapper.BLOCK_BREAK_SPEED)).ifPresent(a -> a.addTransientModifier(modifier));
     }
 
     private void removeTransientModifier(Player player) {
         Optional.ofNullable(modifierMap.remove(player.getUniqueId())).ifPresent(modifier ->
-                Optional.ofNullable(player.getAttribute(Attribute.PLAYER_BLOCK_BREAK_SPEED)).ifPresent(a -> a.removeModifier(modifier))
+                Optional.ofNullable(player.getAttribute(AttributeWrapper.BLOCK_BREAK_SPEED)).ifPresent(a -> a.removeModifier(modifier))
         );
     }
 }

@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
+import org.bukkit.inventory.meta.components.FoodComponent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -175,8 +176,21 @@ public class ItemUtils {
     }
 
     public static boolean isMusicDisc(@NotNull ItemStack itemStack) {
-        if (VersionUtil.atOrAbove("1.21"))
+        if (VersionUtil.atleast("1.21"))
             return itemStack.hasItemMeta() && itemStack.getItemMeta().hasJukeboxPlayable();
         return itemStack.getType().name().startsWith("MUSIC_DISC");
+    }
+
+    @Nullable
+    public static ItemStack getUsingConvertsTo(ItemMeta itemMeta) {
+        if (VersionUtil.below("1.21") || itemMeta == null) return null;
+
+        if (VersionUtil.atleast("1.21.2")) return itemMeta.hasUseRemainder() ? itemMeta.getUseRemainder() : null;
+        try {
+            return (ItemStack) FoodComponent.class.getMethod("getUsingConvertsTo").invoke(itemMeta.getFood());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

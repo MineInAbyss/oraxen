@@ -1,29 +1,33 @@
 package com.codecraft.nexo.items;
 
+import com.codecraft.nexo.api.NexoItems;
+import com.codecraft.nexo.compatibilities.provided.ecoitems.WrappedEcoItem;
+import com.codecraft.nexo.compatibilities.provided.mythiccrucible.WrappedCrucibleItem;
 import com.codecraft.nexo.config.Settings;
+import com.codecraft.nexo.nms.NMSHandlers;
 import com.codecraft.nexo.utils.ParseUtils;
-import com.codecraft.nexo.utils.PotionUtils;
 import com.codecraft.nexo.utils.VersionUtil;
 import com.codecraft.nexo.utils.logs.Logs;
+import net.Indyuce.mmoitems.MMOItems;
+import net.kyori.adventure.key.Key;
+import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Tag;
+import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.damage.DamageType;
+import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemRarity;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.components.FoodComponent;
+import org.bukkit.inventory.meta.components.EquippableComponent;
 import org.bukkit.inventory.meta.components.JukeboxPlayableComponent;
 import org.bukkit.inventory.meta.components.ToolComponent;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
+import org.bukkit.inventory.meta.components.UseCooldownComponent;
+import org.bukkit.tag.DamageTypeTags;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class ComponentParser {
 
@@ -54,7 +58,7 @@ public class ComponentParser {
         if (componentSection.contains("fire_resistant")) itemBuilder.setFireResistant(componentSection.getBoolean("fire_resistant"));
         if (componentSection.contains("hide_tooltip")) itemBuilder.setHideToolTip(componentSection.getBoolean("hide_tooltip"));
 
-        parseFoodComponent();
+        Optional.ofNullable(componentSection.getConfigurationSection("food")).ifPresent(food -> NMSHandlers.getHandler().foodComponent(itemBuilder, food));
         parseToolComponent();
 
         if (VersionUtil.below("1.21")) return;
@@ -66,6 +70,90 @@ public class ComponentParser {
             jukeboxPlayable.setSongKey(NamespacedKey.fromString(jukeboxSection.getString("song_key")));
             itemBuilder.setJukeboxPlayable(jukeboxPlayable);
         }
+
+        if (VersionUtil.below("1.21.2")) return;
+        Optional.ofNullable(componentSection.getConfigurationSection("equippable"))
+                .ifPresent(equippable -> parseEquippableComponent(itemBuilder, equippable));
+
+        Optional.ofNullable(componentSection.getConfigurationSection("use_cooldown")).ifPresent((cooldownSection) -> {
+            UseCooldownComponent useCooldownComponent = new ItemStack(Material.PAPER).getItemMeta().getUseCooldown();
+            String group = Optional.ofNullable(cooldownSection.getString("group")).orElse("oraxen:" + NexoItems.idByItem(itemBuilder));
+            if (!group.isEmpty()) useCooldownComponent.setCooldownGroup(NamespacedKey.fromString(group));
+            useCooldownComponent.setCooldownSeconds((float) Math.max(cooldownSection.getDouble("seconds", 1.0), 0f));
+            itemBuilder.setUseCooldownComponent(useCooldownComponent);
+        });
+
+        Optional.ofNullable(componentSection.getConfigurationSection("use_remainder")).ifPresent(useRemainder -> parseUseRemainderComponent(itemBuilder, useRemainder));
+        Optional.ofNullable(componentSection.getString("damage_resistant")).map(NamespacedKey::fromString).ifPresent(damageResistantKey ->
+                itemBuilder.setDamageResistant(Bukkit.getTag(DamageTypeTags.REGISTRY_DAMAGE_TYPES, damageResistantKey, DamageType.class))
+        );
+
+        Optional.ofNullable(componentSection.getString("tooltip_style")).map(NamespacedKey::fromString).ifPresent(itemBuilder::setTooltipStyle);
+
+        Optional.ofNullable(componentSection.getString("item_model")).map(NamespacedKey::fromString)
+                .ifPresentOrElse(itemBuilder::setItemModel, () -> {
+                    if (itemBuilder.nexoMeta() == null || !itemBuilder.nexoMeta().containsPackInfo()) return;
+                    if (itemBuilder.nexoMeta().customModelData() != null) return;
+                    Optional.ofNullable(componentSection.getString("item_model")).map(NamespacedKey::fromString).ifPresent(itemBuilder::setItemModel);
+                });
+
+        if (componentSection.contains("enchantable")) itemBuilder.setEnchantable(componentSection.getInt("enchantable"));
+        if (componentSection.contains("glider")) itemBuilder.setGlider(componentSection.getBoolean("glider"));
+
+        Optional.ofNullable(componentSection.getConfigurationSection("consumable")).ifPresent(consumableSection ->
+                NMSHandlers.getHandler().consumableComponent(itemBuilder, consumableSection)
+        );
+
+    }
+
+    private void parseUseRemainderComponent(ItemBuilder item, @NotNull ConfigurationSection useRemainderSection) {
+        ItemStack result;
+        int amount = useRemainderSection.getInt("amount", 1);
+
+        if (useRemainderSection.contains("nexo_item"))
+            result = ItemUpdater.updateItem(NexoItems.itemById(useRemainderSection.getString("nexo_item")).build());
+        else if (useRemainderSection.contains("oraxen_item"))
+            result = ItemUpdater.updateItem(NexoItems.itemById(useRemainderSection.getString("oraxen_item")).build());
+        else if (useRemainderSection.contains("crucible_item"))
+            result = new WrappedCrucibleItem(useRemainderSection.getString("crucible_item")).build();
+        else if (useRemainderSection.contains("mmoitems_id") && useRemainderSection.isString("mmoitems_type"))
+            result = MMOItems.plugin.getItem(useRemainderSection.getString("mmoitems_type"), useRemainderSection.getString("mmoitems_id"));
+        else if (useRemainderSection.contains("ecoitem_id"))
+            result = new WrappedEcoItem(useRemainderSection.getString("ecoitem_id")).build();
+        else if (useRemainderSection.contains("minecraft_type")) {
+            Material material = Material.getMaterial(useRemainderSection.getString("minecraft_type", "AIR"));
+            if (material == null || material.isAir()) return;
+            result = new ItemStack(material);
+        } else result = useRemainderSection.getItemStack("minecraft_item");
+
+        if (result != null) result.setAmount(amount);
+        item.setUseRemainder(result);
+    }
+
+    private void parseEquippableComponent(ItemBuilder item, ConfigurationSection equippableSection) {
+        EquippableComponent equippableComponent = new ItemStack(itemBuilder.getType()).getItemMeta().getEquippable();
+
+        String slot = equippableSection.getString("slot");
+        try {
+            equippableComponent.setSlot(EquipmentSlot.valueOf(slot));
+        } catch (Exception e) {
+            Logs.logWarning("Error parsing equippable-component in %s...".formatted(section.getName()));
+            Logs.logWarning("Invalid \"slot\"-value %s".formatted(slot));
+            Logs.logWarning("Valid values are: %s".formatted(StringUtils.join(EquipmentSlot.values())));
+            return;
+        }
+
+        List<EntityType> entityTypes = equippableSection.getStringList("allowed_entity_types").stream().map(e -> EnumUtils.getEnum(EntityType.class, e)).toList();
+        if (equippableSection.contains("allowed_entity_types")) equippableComponent.setAllowedEntities(entityTypes.isEmpty() ? null : entityTypes);
+        if (equippableSection.contains("damage_on_hurt")) equippableComponent.setDamageOnHurt(equippableSection.getBoolean("damage_on_hurt", true));
+        if (equippableSection.contains("dispensable")) equippableComponent.setDispensable(equippableSection.getBoolean("dispensable", true));
+        if (equippableSection.contains("swappable")) equippableComponent.setSwappable(equippableSection.getBoolean("swappable", true));
+
+        Optional.ofNullable(equippableSection.getString("model")).map(NamespacedKey::fromString).ifPresent(equippableComponent::setModel);
+        Optional.ofNullable(equippableSection.getString("camera_overlay")).map(NamespacedKey::fromString).ifPresent(equippableComponent::setCameraOverlay);
+        Optional.ofNullable(equippableSection.getString("equip_sound")).map(Key::key).map(Registry.SOUNDS::get).ifPresent(equippableComponent::setEquipSound);
+
+        item.setEquippableComponent(equippableComponent);
     }
 
     @SuppressWarnings({"UnstableApiUsage", "unchecked"})
@@ -137,38 +225,5 @@ public class ComponentParser {
         }
 
         itemBuilder.setToolComponent(toolComponent);
-    }
-
-    @SuppressWarnings("UnstableApiUsage")
-    private void parseFoodComponent() {
-        ConfigurationSection foodSection = componentSection.getConfigurationSection("food");
-        if (foodSection == null) return;
-
-        FoodComponent foodComponent = new ItemStack(Material.PAPER).getItemMeta().getFood();
-        foodComponent.setNutrition(foodSection.getInt("nutrition"));
-        foodComponent.setSaturation((float) foodSection.getDouble("saturation", 0.0));
-        foodComponent.setCanAlwaysEat(foodSection.getBoolean("can_always_eat"));
-        foodComponent.setEatSeconds((float) foodSection.getDouble("eat_seconds", 1.6));
-
-        ConfigurationSection effectsSection = foodSection.getConfigurationSection("effects");
-        if (effectsSection != null) for (String effect : effectsSection.getKeys(false)) {
-            ConfigurationSection effectSection = effectsSection.getConfigurationSection(effect);
-            if (effectSection == null) continue;
-            PotionEffectType effectType = PotionUtils.getEffectType(effect);
-            if (effectType == null)
-                Logs.logError("Invalid potion effect: " + effect + ", in " + StringUtils.substringBefore(effectsSection.getCurrentPath(), ".") + " food-property!");
-            else {
-                foodComponent.addEffect(
-                        new PotionEffect(effectType,
-                                Math.max(effectSection.getInt("duration", 1) * 20, 0),
-                                Math.max(effectSection.getInt("amplifier", 0), 0),
-                                effectSection.getBoolean("ambient", true),
-                                effectSection.getBoolean("show_particles", true),
-                                effectSection.getBoolean("show_icon", true)),
-                        (float) Math.clamp(effectSection.getDouble("probability", 1.0), 0, 1)
-                );
-            }
-        }
-        itemBuilder.setFoodComponent(foodComponent);
     }
 }

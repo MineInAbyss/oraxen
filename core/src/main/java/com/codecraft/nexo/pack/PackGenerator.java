@@ -15,7 +15,9 @@ import com.codecraft.nexo.nms.NMSHandlers;
 import com.codecraft.nexo.pack.creative.NexoPackReader;
 import com.codecraft.nexo.pack.creative.NexoPackWriter;
 import com.codecraft.nexo.utils.*;
-import com.codecraft.nexo.utils.customarmor.CustomArmorDatapack;
+import com.codecraft.nexo.utils.customarmor.ComponentCustomArmor;
+import com.codecraft.nexo.utils.customarmor.CustomArmorType;
+import com.codecraft.nexo.utils.customarmor.TrimsCustomArmor;
 import com.codecraft.nexo.utils.logs.Logs;
 import com.ticxo.modelengine.api.ModelEngineAPI;
 import net.kyori.adventure.key.Key;
@@ -51,7 +53,8 @@ public class PackGenerator {
     private final PackDownloader packDownloader;
     @NotNull private ResourcePack resourcePack = ResourcePack.resourcePack();
     private BuiltResourcePack builtPack = null;
-    private final CustomArmorDatapack customArmorDatapack;
+    private final TrimsCustomArmor trimsCustomArmor;
+    private final ComponentCustomArmor componentCustomArmor;
     private final ModelGenerator modelGenerator;
     public CompletableFuture<Void> packGenFuture;
 
@@ -65,7 +68,8 @@ public class PackGenerator {
         packDownloader.downloadRequiredPack();
         packDownloader.downloadDefaultPack();
 
-        customArmorDatapack = Settings.CUSTOM_ARMOR_ENABLED.toBool() ? new CustomArmorDatapack() : null;
+        trimsCustomArmor = CustomArmorType.getSetting() == CustomArmorType.TRIMS ? new TrimsCustomArmor() : null;
+        componentCustomArmor = CustomArmorType.getSetting() == CustomArmorType.COMPONENT ? new ComponentCustomArmor() : null;
         this.modelGenerator = new ModelGenerator(resourcePack);
     }
 
@@ -114,7 +118,9 @@ public class PackGenerator {
             addSoundFile();
             parseLanguageFiles();
 
-            if (Settings.CUSTOM_ARMOR_ENABLED.toBool()) customArmorDatapack.generateTrimAssets();
+            if (trimsCustomArmor != null) trimsCustomArmor.generateTrimAssets(resourcePack);
+            if (componentCustomArmor != null) componentCustomArmor.generatePackFiles(resourcePack);
+
             handleScoreboardTablist();
 
             removeExcludedFileExtensions();

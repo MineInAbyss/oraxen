@@ -37,7 +37,7 @@ public class CustomBlockMiningListener implements Listener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
-        if (VersionUtil.atOrAbove("1.20.5")) NexoPlugin.get().breakerManager().stopBlockBreak(event.getPlayer());
+        if (VersionUtil.atleast("1.20.5")) NexoPlugin.get().breakerManager().stopBlockBreak(event.getPlayer());
     }
 
     @EventHandler

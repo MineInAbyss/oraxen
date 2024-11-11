@@ -3,17 +3,19 @@ package com.codecraft.nexo.mechanics;
 import com.codecraft.nexo.mechanics.furniture.FurnitureFactory;
 import com.codecraft.nexo.utils.breaker.ToolTypeSpeedModifier;
 import com.codecraft.nexo.utils.drops.Drop;
+import com.codecraft.nexo.utils.wrappers.AttributeWrapper;
 import com.codecraft.nexo.utils.wrappers.EnchantmentWrapper;
 import com.codecraft.nexo.utils.wrappers.PotionEffectTypeWrapper;
 import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class BreakableMechanic {
@@ -74,8 +76,7 @@ public class BreakableMechanic {
         if (miningFatigue != null) multiplier *= (float) Math.pow(0.3, Math.min(miningFatigue.getAmplifier(), 4));
 
         // 1.20.5+ speed-modifier attribute
-        float miningSpeedModifier = Arrays.stream(Attribute.values()).filter(a -> a.name().equalsIgnoreCase("PLAYER_BLOCK_BREAK_SPEED"))
-                .map(player::getAttribute).filter(Objects::nonNull).map(AttributeInstance::getBaseValue).findFirst().orElse(1.0).floatValue();
+        float miningSpeedModifier = Optional.ofNullable(player.getAttribute(AttributeWrapper.BLOCK_BREAK_SPEED)).map(AttributeInstance::getBaseValue).orElse(1.0).floatValue();
         multiplier *= miningSpeedModifier;
 
         if (player.isUnderWater() && !Optional.ofNullable(player.getEquipment().getHelmet()).orElse(new ItemStack(Material.PAPER)).containsEnchantment(EnchantmentWrapper.AQUA_AFFINITY)) {

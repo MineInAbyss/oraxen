@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class NexoMeta {
 
-    private int customModelData;
+    private Integer customModelData;
     private Key modelKey;
     private Key blockingModel;
     private List<Key> pullingModels;
@@ -108,11 +108,11 @@ public class NexoMeta {
         return containsPackInfo;
     }
 
-    public int customModelData() {
+    public Integer customModelData() {
         return customModelData;
     }
 
-    public void customModelData(int customModelData) {
+    public void customModelData(Integer customModelData) {
         this.customModelData = customModelData;
     }
 

@@ -40,7 +40,7 @@ public class InventoryUtils {
     }
 
     public static Component titleFromView(InventoryEvent event) {
-        if (VersionUtil.atOrAbove("1.21")) return event.getView().title();
+        if (VersionUtil.atleast("1.21")) return event.getView().title();
         try {
             return (Component) titleMethod.invoke(event.getView());
         } catch (Exception e) {
@@ -50,7 +50,7 @@ public class InventoryUtils {
     }
 
     public static Player playerFromView(InventoryEvent event) {
-        if (VersionUtil.atOrAbove("1.21")) return (Player) event.getView().getPlayer();
+        if (VersionUtil.atleast("1.21")) return (Player) event.getView().getPlayer();
         try {
             return (Player) playerFromViewMethod.invoke(event.getView());
         } catch (Exception e) {
@@ -60,7 +60,7 @@ public class InventoryUtils {
     }
 
     public static String getTitleFromView(InventoryEvent event) {
-        if (VersionUtil.atOrAbove("1.21")) return event.getView().getTitle();
+        if (VersionUtil.atleast("1.21")) return event.getView().getTitle();
         try {
             return (String) getTitleMethod.invoke(event.getView());
         } catch (Exception e) {
@@ -70,7 +70,7 @@ public class InventoryUtils {
     }
 
     public static Inventory topInventoryForPlayer(Player player) {
-        if (VersionUtil.atOrAbove("1.21")) return player.getOpenInventory().getTopInventory();
+        if (VersionUtil.atleast("1.21")) return player.getOpenInventory().getTopInventory();
         try {
             return (Inventory) topInventoryMethod.invoke(player.getOpenInventory());
         } catch (Exception e) {

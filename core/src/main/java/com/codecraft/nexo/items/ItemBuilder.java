@@ -18,14 +18,13 @@ import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.damage.DamageType;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemRarity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
-import org.bukkit.inventory.meta.components.FoodComponent;
-import org.bukkit.inventory.meta.components.JukeboxPlayableComponent;
-import org.bukkit.inventory.meta.components.ToolComponent;
+import org.bukkit.inventory.meta.components.*;
 import org.bukkit.inventory.meta.trim.ArmorTrim;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
@@ -61,8 +60,7 @@ public class ItemBuilder {
     private Set<ItemFlag> itemFlags;
     private boolean hasAttributeModifiers;
     private Multimap<Attribute, AttributeModifier> attributeModifiers;
-    private boolean hasCustomModelData;
-    private int customModelData;
+    @Nullable private Integer customModelData;
     private Component displayName;
     private List<Component> lore;
     private ItemStack finalItemStack;
@@ -92,6 +90,24 @@ public class ItemBuilder {
     // 1.21+ properties
     @Nullable
     private JukeboxPlayableComponent jukeboxPlayable;
+
+    // 1.21.2+ properties
+    @Nullable
+    private EquippableComponent equippableComponent;
+    @Nullable
+    private Boolean isGlider;
+    @Nullable
+    private UseCooldownComponent useCooldownComponent;
+    @Nullable
+    private ItemStack useRemainder;
+    @Nullable
+    private Tag<DamageType> damageResistant;
+    @Nullable
+    private NamespacedKey tooltipStyle;
+    @Nullable
+    private NamespacedKey itemModel;
+    @Nullable
+    private Integer enchantable;
 
 
     public ItemBuilder(final Material material) {
@@ -159,15 +175,14 @@ public class ItemBuilder {
         if (hasAttributeModifiers)
             attributeModifiers = itemMeta.getAttributeModifiers();
 
-        hasCustomModelData = itemMeta.hasCustomModelData();
-        if (hasCustomModelData)
-            customModelData = itemMeta.getCustomModelData();
+
+        customModelData = itemMeta.hasCustomModelData() ? itemMeta.getCustomModelData() : null;
 
         persistentDataContainer = itemMeta.getPersistentDataContainer();
 
         enchantments = new HashMap<>();
 
-        if (VersionUtil.atOrAbove("1.20.5")) {
+        if (VersionUtil.atleast("1.20.5")) {
             if (itemMeta.hasItemName()) {
                 if (VersionUtil.isPaperServer()) itemName = itemMeta.itemName();
                 else itemName = AdventureUtils.LEGACY_SERIALIZER.deserialize(itemMeta.getItemName());
@@ -184,8 +199,18 @@ public class ItemBuilder {
             if (maxStackSize != null && maxStackSize == 1) unstackable = true;
         }
 
-        if (VersionUtil.atOrAbove("1.21")) {
+        if (VersionUtil.atleast("1.21")) {
             jukeboxPlayable = itemMeta.hasJukeboxPlayable() ? itemMeta.getJukeboxPlayable() : null;
+        }
+
+        if (VersionUtil.atleast("1.21.2")) {
+            equippableComponent = itemMeta.hasEquippable() ? itemMeta.getEquippable() : null;
+            useCooldownComponent = itemMeta.hasUseCooldown() ? itemMeta.getUseCooldown() : null;
+            useRemainder = itemMeta.hasUseRemainder() ? itemMeta.getUseRemainder() : null;
+            damageResistant = itemMeta.hasDamageResistant() ? itemMeta.getDamageResistant() : null;
+            itemModel = itemMeta.hasItemModel() ? itemMeta.getItemModel() : null;
+            enchantable = itemMeta.hasEnchantable() ? itemMeta.getEnchantable() : null;
+            isGlider = itemMeta.isGlider() ? true : null;
         }
 
     }
@@ -286,7 +311,7 @@ public class ItemBuilder {
 
     public ItemBuilder setUnstackable(final boolean unstackable) {
         this.unstackable = unstackable;
-        if (unstackable && VersionUtil.atOrAbove("1.20.5")) maxStackSize = 1;
+        if (unstackable && VersionUtil.atleast("1.20.5")) maxStackSize = 1;
         return this;
     }
 
@@ -359,8 +384,109 @@ public class ItemBuilder {
         return this;
     }
 
+    public boolean hasItemModel() {
+        return VersionUtil.atleast("1.21.2") && itemModel != null;
+    }
+
+    @Nullable
+    public NamespacedKey getItemModel() {
+        return itemModel;
+    }
+
+    public ItemBuilder setItemModel(final NamespacedKey itemModel) {
+        this.itemModel = itemModel;
+        return this;
+    }
+
+    public boolean hasTooltipStyle() {
+        return VersionUtil.atleast("1.21.2") && tooltipStyle != null;
+    }
+
+    public NamespacedKey getTooltipStyle() {
+        return tooltipStyle;
+    }
+
+    public ItemBuilder setTooltipStyle(NamespacedKey tooltipStyle) {
+        this.tooltipStyle = tooltipStyle;
+        return this;
+    }
+
+    public boolean hasEnchantable() {
+        return VersionUtil.atleast("1.21.2") && enchantable != null;
+    }
+
+    @Nullable
+    public Integer getEnchantable() {
+        return enchantable;
+    }
+
+    public ItemBuilder setEnchantable(Integer enchantable) {
+        this.enchantable = enchantable;
+        return this;
+    }
+
+    public boolean hasDamageResistant() {
+        return VersionUtil.atleast("1.21.2") && damageResistant != null;
+    }
+
+    public Tag<DamageType> getDamageResistant() {
+        return damageResistant;
+    }
+
+    public ItemBuilder setDamageResistant(final Tag<DamageType> damageResistant) {
+        this.damageResistant = damageResistant;
+        return this;
+    }
+
+    public ItemBuilder setGlider(final boolean glider) {
+        this.isGlider = glider;
+        return this;
+    }
+
+    public boolean hasUseRemainder() {
+        return VersionUtil.atleast("1.21.2") && useRemainder != null;
+    }
+
+    @Nullable
+    public ItemStack getUseRemainder() {
+        return useRemainder;
+    }
+
+    public ItemBuilder setUseRemainder(@Nullable final ItemStack itemStack) {
+        this.useRemainder = itemStack;
+        return this;
+    }
+
+    public boolean hasUseCooldownComponent() {
+        return VersionUtil.atleast("1.21.2") && useCooldownComponent != null;
+    }
+
+    @Nullable
+    public UseCooldownComponent getUseCooldownComponent() {
+        return useCooldownComponent;
+    }
+
+    public ItemBuilder setUseCooldownComponent(@Nullable final UseCooldownComponent useCooldownComponent) {
+        this.useCooldownComponent = useCooldownComponent;
+        return this;
+    }
+
+    public boolean hasEquippableComponent() {
+        return VersionUtil.atleast("1.21.2") && equippableComponent != null;
+    }
+
+    @Nullable
+    public EquippableComponent getEquippableComponent() {
+        return equippableComponent;
+    }
+
+    public ItemBuilder setEquippableComponent(@Nullable final EquippableComponent equippableComponent) {
+        this.equippableComponent = equippableComponent;
+        return this;
+    }
+
     public boolean hasFoodComponent() {
-        return VersionUtil.atOrAbove("1.20.5") && foodComponent != null;
+        return VersionUtil.atleast("1.20.5") && foodComponent != null;
     }
 
     @Nullable
@@ -368,13 +494,13 @@ public class ItemBuilder {
         return foodComponent;
     }
 
-    public ItemBuilder setFoodComponent(FoodComponent foodComponent) {
+    public ItemBuilder setFoodComponent(@Nullable FoodComponent foodComponent) {
         this.foodComponent = foodComponent;
         return this;
     }
 
     public boolean hasToolComponent() {
-        return VersionUtil.atOrAbove("1.20.5") && toolComponent != null;
+        return VersionUtil.atleast("1.20.5") && toolComponent != null;
     }
 
     @Nullable
@@ -382,13 +508,13 @@ public class ItemBuilder {
         return toolComponent;
     }
 
-    public ItemBuilder setToolComponent(ToolComponent toolComponent) {
+    public ItemBuilder setToolComponent(@Nullable ToolComponent toolComponent) {
         this.toolComponent = toolComponent;
         return this;
     }
 
     public boolean hasJukeboxPlayable() {
-        return VersionUtil.atOrAbove("1.21") && jukeboxPlayable != null;
+        return VersionUtil.atleast("1.21") && jukeboxPlayable != null;
     }
 
     @Nullable
@@ -396,13 +522,13 @@ public class ItemBuilder {
         return jukeboxPlayable;
     }
 
-    public ItemBuilder setJukeboxPlayable(JukeboxPlayableComponent jukeboxPlayable) {
+    public ItemBuilder setJukeboxPlayable(@Nullable JukeboxPlayableComponent jukeboxPlayable) {
         this.jukeboxPlayable = jukeboxPlayable;
         return this;
     }
 
     public boolean hasEnchantmentGlindOverride() {
-        return VersionUtil.atOrAbove("1.20.5") && enchantmentGlintOverride != null;
+        return VersionUtil.atleast("1.20.5") && enchantmentGlintOverride != null;
     }
 
     @Nullable
@@ -416,7 +542,7 @@ public class ItemBuilder {
     }
 
     public boolean hasRarity() {
-        return VersionUtil.atOrAbove("1.20.5") && rarity != null;
+        return VersionUtil.atleast("1.20.5") && rarity != null;
     }
 
     @Nullable
@@ -440,7 +566,7 @@ public class ItemBuilder {
     }
 
     public boolean hasMaxStackSize() {
-        return VersionUtil.atOrAbove("1.20.5") && maxStackSize != null;
+        return VersionUtil.atleast("1.20.5") && maxStackSize != null;
     }
 
     @Nullable
@@ -496,8 +622,6 @@ public class ItemBuilder {
     }
 
     public ItemBuilder customModelData(final int customModelData) {
-        if (!hasCustomModelData)
-            hasCustomModelData = true;
         this.customModelData = customModelData;
         return this;
     }
@@ -572,7 +696,7 @@ public class ItemBuilder {
         ItemMeta itemMeta = itemStack.getItemMeta();
 
         // 1.20.5+ properties
-        if (VersionUtil.atOrAbove("1.20.5")) {
+        if (VersionUtil.atleast("1.20.5")) {
             if (itemMeta instanceof Damageable damageable) damageable.setMaxDamage(durability);
             if (itemName != null) {
                 if (VersionUtil.isPaperServer()) itemMeta.itemName(itemName);
@@ -587,8 +711,19 @@ public class ItemBuilder {
             if (hideToolTip != null) itemMeta.setHideTooltip(hideToolTip);
         }
 
-        if (VersionUtil.atOrAbove("1.21")) {
+        if (VersionUtil.atleast("1.21")) {
             if (hasJukeboxPlayable()) itemMeta.setJukeboxPlayable(jukeboxPlayable);
+        }
+
+        if (VersionUtil.atleast("1.21.2")) {
+            if (hasEquippableComponent()) itemMeta.setEquippable(equippableComponent);
+            if (hasUseCooldownComponent()) itemMeta.setUseCooldown(useCooldownComponent);
+            if (hasDamageResistant()) itemMeta.setDamageResistant(damageResistant);
+            if (hasTooltipStyle()) itemMeta.setTooltipStyle(tooltipStyle);
+            if (hasUseRemainder()) itemMeta.setUseRemainder(useRemainder);
+            if (hasEnchantable()) itemMeta.setEnchantable(enchantable);
+            if (itemModel != null) itemMeta.setItemModel(itemModel);
+            if (isGlider != null) itemMeta.setGlider(isGlider);
         }
 
         handleVariousMeta(itemMeta);
@@ -615,7 +750,7 @@ public class ItemBuilder {
 
         if (itemFlags != null) itemMeta.addItemFlags(itemFlags.toArray(new ItemFlag[0]));
         if (hasAttributeModifiers) itemMeta.setAttributeModifiers(attributeModifiers);
-        if (hasCustomModelData) itemMeta.setCustomModelData(customModelData);
+         itemMeta.setCustomModelData(customModelData);
 
         if (!persistentDataMap.isEmpty())
             for (final Map.Entry<PersistentDataSpace, Object> dataSpace : persistentDataMap.entrySet())
@@ -633,16 +768,19 @@ public class ItemBuilder {
         regen();
         NexoItems.map().entrySet().stream().filter(entry -> entry.getValue().containsValue(this)).findFirst().ifPresent(entry -> {
             YamlConfiguration yamlConfiguration = NexoYaml.loadConfiguration(entry.getKey());
+            String itemId = NexoItems.idByItem(this);
             if (this.hasColor()) {
                 String color = this.color.getRed() + "," + this.color.getGreen() + "," + this.color.getBlue();
-                yamlConfiguration.set(NexoItems.idByItem(this.build()) + ".color", color);
+                yamlConfiguration.set(itemId + ".color", color);
             }
             if (this.hasTrimPattern()) {
                 String trimPattern = this.getTrimPatternKey().asString();
-                yamlConfiguration.set(NexoItems.idByItem(this.build()) + ".trim_pattern", trimPattern);
+                yamlConfiguration.set(itemId + ".trim_pattern", trimPattern);
             }
-            if (!itemFlags().isEmpty()) {
-                yamlConfiguration.set(NexoItems.idByItem(this.build()) + ".ItemFlags", this.itemFlags.stream().map(ItemFlag::name).toList());
+            if (!itemFlags.isEmpty()) yamlConfiguration.set(itemId + ".ItemFlags", this.itemFlags.stream().map(ItemFlag::name).toList());
+            if (hasEquippableComponent()) {
+                yamlConfiguration.set(itemId + ".Components.equippable.slot", this.equippableComponent.getSlot().name());
+                yamlConfiguration.set(itemId + ".Components.equippable.model", this.equippableComponent.getModel().toString());
             }
             try {
                 yamlConfiguration.save(entry.getKey());
@@ -717,7 +855,7 @@ public class ItemBuilder {
 
     private ItemStack handleUnstackable(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
-        if (meta == null || VersionUtil.atOrAbove("1.20.5")) return item;
+        if (meta == null || VersionUtil.atleast("1.20.5")) return item;
         meta.getPersistentDataContainer().set(UNSTACKABLE_KEY, DataType.UUID, UUID.randomUUID());
         item.setItemMeta(meta);
         item.setAmount(1);
