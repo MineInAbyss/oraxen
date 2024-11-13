@@ -48,6 +48,14 @@ public interface NMSHandler {
 
     }
 
+    default Object consumableComponent(ItemStack itemStack) {
+        return itemStack;
+    }
+
+    default ItemStack consumableComponent(ItemStack itemStack, Object consumableComponent) {
+        return itemStack;
+    }
+
     default void consumableComponent(ItemBuilder itemBuilder, ConfigurationSection consumableSection) {
 
     }
